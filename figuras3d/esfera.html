@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Esfera - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="light-mode">
+
+    <div class="contenedor">
+        <h1>Volumen y Área Superficial de la Esfera</h1>
+
+        <!-- Imagen de la esfera -->
+        <img src="../imagenes/Esfera.png" alt="Esfera" style="width:150px;margin-bottom:1rem;">
+
+        <!-- Formulario de ingreso -->
+        <form id="esferaForm">
+            <label for="radio">Radio (r):</label>
+            <input type="text" id="radio" placeholder="Ingresa el radio">
+            
+            <div class="acciones">
+                <button type="button" id="calcularVolumen">Calcular Volumen</button>
+                <button type="button" id="calcularArea">Calcular Área Superficial</button>
+                <button type="button" id="volverBtn">Volver</button>
+            </div>
+        </form>
+
+        <!-- Área de resultados -->
+        <div id="resultado" style="margin-top:1.5rem;text-align:left;"></div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="figuras3d.js"></script>
+</body>
+</html>

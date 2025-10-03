@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Triángulo - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="light-mode">
+
+    <div class="contenedor">
+        <h1>Área y Perímetro del Triángulo</h1>
+
+        <!-- Imagen del triángulo -->
+        <img src="../imagenes/Triangulo.png" alt="Triángulo" style="width:150px;margin-bottom:1rem;">
+
+        <!-- Formulario de ingreso -->
+        <form id="trianguloForm">
+            <label for="base">Base (b):</label>
+            <input type="text" id="base" placeholder="Ingresa la base" required>
+
+            <label for="altura">Altura (h):</label>
+            <input type="text" id="altura" placeholder="Ingresa la altura" required>
+
+            <label for="lado1">Lado 1:</label>
+            <input type="text" id="lado1" placeholder="Ingresa lado 1" required>
+
+            <label for="lado2">Lado 2:</label>
+            <input type="text" id="lado2" placeholder="Ingresa lado 2" required>
+            
+            <div class="acciones">
+                <button type="button" id="calcularArea">Calcular Área</button>
+                <button type="button" id="calcularPerimetro">Calcular Perímetro</button>
+                <button type="button" id="volverBtn">Volver</button>
+            </div>
+        </form>
+
+        <!-- Área de resultados -->
+        <div id="resultado" style="margin-top:1.5rem;text-align:left;"></div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../figuras2d/figuras2d.js"></script>
+</body>
+</html>

@@ -1,0 +1,370 @@
+/* ===========================
+   🎨 Paleta de Colores Global
+   =========================== */
+:root {
+    /* 🌞 Modo claro */
+    --fondo: #e8f9f0;         /* verde muy suave */
+    --texto: #1b1b1b;
+    --primario: #2ecc71;      /* verde vivo */
+    --secundario: #3498db;    /* azul celeste */
+    --tarjeta: #ffffff;
+    --sombra: rgba(0,0,0,0.12);
+
+    /* 🌙 Modo oscuro */
+    --oscuro-fondo: #0d0d0d;  /* negro elegante */
+    --oscuro-texto: #f3eaff;
+    --oscuro-primario: #9b59b6;  /* morado suave */
+    --oscuro-secundario: #6c5ce7;/* morado eléctrico */
+    --oscuro-tarjeta: #1a1a1a;
+    --oscuro-sombra: rgba(255,255,255,0.05);
+}
+
+/* ===========================
+   🌞 y 🌙 Modos
+   =========================== */
+body.light-mode {
+    background-color: var(--fondo);
+    color: var(--texto);
+}
+
+body.dark-mode {
+    background-color: var(--oscuro-fondo);
+    color: var(--oscuro-texto);
+}
+
+/* ===========================
+   📦 Contenedor General
+   =========================== */
+.contenedor {
+    max-width: 900px;
+    margin: 2rem auto;
+    background-color: var(--tarjeta);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 6px 12px var(--sombra);
+    text-align: center;
+
+    /* 👇 Animación inicial */
+    animation: fadeScale 0.8s ease-in-out;
+}
+
+body.dark-mode .contenedor {
+    background-color: var(--oscuro-tarjeta);
+    box-shadow: 0 6px 12px var(--oscuro-sombra);
+}
+
+/* ===========================
+   📝 Títulos
+   =========================== */
+h1 {
+    margin-bottom: 1.5rem;
+    color: var(--primario);
+    animation: slideDown 0.8s ease-in-out;
+}
+
+body.dark-mode h1 {
+    color: var(--oscuro-primario);
+}
+
+/* ===========================
+   🔘 Botones
+   =========================== */
+.acciones {
+    margin-bottom: 2rem;
+}
+
+.acciones button {
+    margin: 0.3rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primario), var(--secundario));
+    color: white;
+    font-weight: bold;
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.acciones button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px var(--sombra);
+
+    /* 👇 Efecto "pulse" cuando el mouse pasa */
+    animation: pulse 1s infinite;
+}
+
+body.dark-mode .acciones button {
+    background: linear-gradient(135deg, var(--oscuro-primario), var(--oscuro-secundario));
+}
+
+body.dark-mode .acciones button:hover {
+    box-shadow: 0 4px 8px var(--oscuro-sombra);
+}
+
+/* ===========================
+   🔘 Botones y enlaces tipo botón
+   =========================== */
+.acciones a.btn {
+    margin: 0.3rem;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--primario), var(--secundario));
+    color: white;
+    font-weight: bold;
+    text-decoration: none; /* Quita subrayado en <a> */
+    display: inline-block;  /* Permite padding como botón */
+    transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.acciones a.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px var(--sombra);
+    animation: pulse 1s infinite;
+}
+
+body.dark-mode .acciones a.btn {
+    background: linear-gradient(135deg, var(--oscuro-primario), var(--oscuro-secundario));
+}
+
+body.dark-mode .acciones a.btn:hover {
+    box-shadow: 0 4px 8px var(--oscuro-sombra);
+}
+
+/* ===========================
+   🧩 Tarjetas para enlaces <a>
+   =========================== */
+.tarjeta {
+    display: block;           /* Para que <a> se comporte como contenedor de bloque */
+    text-decoration: none;    /* Quita subrayado de enlaces */
+    background-color: var(--tarjeta);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px var(--sombra);
+    width: 240px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s, color 0.3s;
+    animation: fadeUp 0.9s ease-in-out;
+    color: var(--texto);      /* Asegura que el texto sea visible */
+}
+
+.tarjeta h2,
+.tarjeta p {
+    margin: 0.5rem 0;
+}
+
+.tarjeta:hover {
+    background: linear-gradient(135deg, var(--primario), var(--secundario));
+    color: white;
+    transform: translateY(-8px);
+    animation: float 2s ease-in-out infinite;
+}
+
+body.dark-mode .tarjeta {
+    background-color: var(--oscuro-tarjeta);
+    box-shadow: 0 3px 6px var(--oscuro-sombra);
+    color: var(--oscuro-texto);
+}
+
+body.dark-mode .tarjeta:hover {
+    background: linear-gradient(135deg, var(--oscuro-primario), var(--oscuro-secundario));
+    color: white;
+}
+
+/* ===========================
+   🧩 Tarjetas
+   =========================== */
+.tarjetas {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.tarjeta {
+    background-color: var(--tarjeta);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px var(--sombra);
+    width: 240px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s, background 0.3s, color 0.3s;
+    animation: fadeUp 0.9s ease-in-out;
+}
+
+.tarjeta:hover {
+    background: linear-gradient(135deg, var(--primario), var(--secundario));
+    color: white;
+    transform: translateY(-8px);
+
+    /* 👇 Animación flotante */
+    animation: float 2s ease-in-out infinite;
+}
+
+body.dark-mode .tarjeta {
+    background-color: var(--oscuro-tarjeta);
+    box-shadow: 0 3px 6px var(--oscuro-sombra);
+}
+
+body.dark-mode .tarjeta:hover {
+    background: linear-gradient(135deg, var(--oscuro-primario), var(--oscuro-secundario));
+    color: white;
+}
+
+/* ===========================
+   ⚙️ Utilidades
+   =========================== */
+.oculto {
+    display: none;
+}
+
+/* ===========================
+   🎬 Animaciones Globales
+   =========================== */
+
+/* Aparición con escala */
+@keyframes fadeScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Aparición desde arriba */
+@keyframes slideDown {
+    from { transform: translateY(-30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Aparición hacia arriba */
+@keyframes fadeUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Pulso (botones) */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+}
+
+/* Flotar (tarjetas en hover) */
+@keyframes float {
+    0% { transform: translateY(-8px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(-8px); }
+}
+
+/* Inputs y labels */
+form input {
+    width: 90%;
+    padding: 0.5rem;
+    margin: 0.5rem 0 1rem 0;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+body.dark-mode form input {
+    background-color: #2a2a2a;
+    color: #f3eaff;
+    border: 1px solid #555;
+}
+
+/* 
+matricez
+*/
+
+.contenedor {
+            text-align: center;
+            padding: 1rem;
+        }
+
+    .matriz-card {
+        display: inline-block;
+        background-color: var(--card-bg);
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        margin-bottom: 1.5rem;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .matriz {
+        display: grid;
+        grid-template-columns: repeat(4, 50px); /* tamaño de columna más cómodo */
+        grid-template-rows: repeat(4, 50px);   /* altura uniforme */
+        gap: 20px; /* separación horizontal y vertical */
+        justify-content: center;
+    }
+
+    .matriz input {
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        font-size: 16px;
+        border: 2px solid var(--input-border);
+        border-radius: 6px;
+        background-color: var(--input-bg);
+        color: var(--input-text);
+        transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s, color 0.3s;
+    }
+
+    .matriz input:focus {
+        border-color: var(--accent-color);
+        box-shadow: 0 0 4px var(--accent-color);
+        outline: none;
+    }
+
+        .acciones {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .acciones button {
+            padding: 0.45rem 0.9rem;
+            font-size: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .acciones button:hover {
+            background-color: var(--btn-hover);
+        }
+
+        .emoji-matriz {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Variables de modo claro/oscuro */
+        body.light-mode {
+            --card-bg: #f9f9f9;
+            --input-bg: #ffffff;
+            --input-text: #333333;
+            --input-border: #ccc;
+            --accent-color: #007bff;
+            --btn-bg: #007bff;
+            --btn-text: #ffffff;
+            --btn-hover: #0056b3;
+        }
+
+        body.dark-mode {
+            --card-bg: #2c2c2c;
+            --input-bg: #3c3c3c;
+            --input-text: #e0e0e0;
+            --input-border: #555;
+            --accent-color: #66b2ff;
+            --btn-bg: #66b2ff;
+            --btn-text: #000000;
+            --btn-hover: #3399ff;
+        }

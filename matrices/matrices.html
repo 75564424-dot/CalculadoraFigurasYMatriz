@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz 4x4 - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="light-mode">
+
+    <div class="contenedor">
+        <h1>Determinante de Matriz 4x4</h1>
+
+        <!-- Emoji representativo -->
+        <div class="emoji-matriz">🧮</div>
+
+        <!-- Formulario de ingreso -->
+        <form id="matrizForm">
+            <div class="matriz-card">
+                <div class="matriz">
+                    <!-- Inputs 4x4 -->
+                    <input type="text" id="m00">
+                    <input type="text" id="m01">
+                    <input type="text" id="m02">
+                    <input type="text" id="m03">
+
+                    <input type="text" id="m10">
+                    <input type="text" id="m11">
+                    <input type="text" id="m12">
+                    <input type="text" id="m13">
+
+                    <input type="text" id="m20">
+                    <input type="text" id="m21">
+                    <input type="text" id="m22">
+                    <input type="text" id="m23">
+
+                    <input type="text" id="m30">
+                    <input type="text" id="m31">
+                    <input type="text" id="m32">
+                    <input type="text" id="m33">
+                </div>
+            </div>
+
+            <div class="acciones">
+                <button type="button" id="calcularDeterminante">Calcular Determinante</button>
+                <button type="button" id="verPasos">Ver Pasos</button>
+                <button type="button" id="imprimirSolucion">Imprimir Solución</button>
+                <button type="button" id="limpiarMatriz">Limpiar Matriz</button>
+                <button type="button" id="volverBtn">Volver</button>
+            </div>
+        </form>
+
+        <!-- Área de resultados -->
+        <div id="resultado" style="margin-top:1.5rem;text-align:center;"></div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="matrices.js"></script>
+</body>
+</html>

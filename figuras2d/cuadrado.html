@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cuadrado - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="light-mode">
+
+    <div class="contenedor">
+        <h1>Área y Perímetro del Cuadrado</h1>
+
+        <!-- Imagen del cuadrado -->
+        <img src="../imagenes/Cuadrado.png" alt="Cuadrado" style="width:150px;margin-bottom:1rem;">
+
+        <!-- Formulario de ingreso -->
+        <form id="cuadradoForm">
+            <label for="lado">Lado (l):</label>
+            <input type="text" id="lado" placeholder="Ingresa el lado" required>
+            
+            <div class="acciones">
+                <button type="button" id="calcularArea">Calcular Área</button>
+                <button type="button" id="calcularPerimetro">Calcular Perímetro</button>
+                <button type="button" id="volverBtn">Volver</button>
+            </div>
+        </form>
+
+        <!-- Área de resultados -->
+        <div id="resultado" style="margin-top:1.5rem;text-align:left;"></div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="../figuras2d/figuras2d.js"></script>
+</body>
+</html>
