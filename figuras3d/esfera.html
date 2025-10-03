@@ -11,8 +11,17 @@
     <div class="contenedor">
         <h1>Volumen y Área Superficial de la Esfera</h1>
 
-        <!-- Imagen de la esfera -->
-        <img src="../imagenes/Esfera.png" alt="Esfera" style="width:150px;margin-bottom:1rem;">
+        <!-- Imagen con letras sobrepuesta -->
+        <!-- Imagen con letras sobrepuesta -->
+        <div class="imagen-container">
+            <img src="../imagenes/Esfera.png" alt="Esfera">
+            
+            <!-- Letras sobre la imagen -->
+            <div class="letra-sobre-imagen" style="top: 80px; left: 90px;">
+                r = <span id="valorRadio"></span> <!-- Aquí se actualizará con JS -->
+            </div>
+        </div>
+
 
         <!-- Formulario de ingreso -->
         <form id="esferaForm">
@@ -20,9 +29,9 @@
             <input type="text" id="radio" placeholder="Ingresa el radio">
             
             <div class="acciones">
-                <button type="button" id="calcularVolumen">Calcular Volumen</button>
-                <button type="button" id="calcularArea">Calcular Área Superficial</button>
-                <button type="button" id="volverBtn">Volver</button>
+                <button type="button" id="calcularVolumen">Calcular Volumen 🔹</button>
+                <button type="button" id="calcularArea">Calcular Área Superficial ✨</button>
+                <button type="button" id="volverFiguras">Volver al Menu⬅️</button>
             </div>
         </form>
 

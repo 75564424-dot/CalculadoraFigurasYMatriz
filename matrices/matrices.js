@@ -152,14 +152,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if(imprimirBtn){
-        imprimirBtn.addEventListener('click',()=>{
+        imprimirBtn.addEventListener('click', ()=>{
             if(!matrizCalculada){ alert('Primero calcula la determinante'); return; }
             if(!pasosGenerados){ alert('Primero muestra los pasos'); return; }
-
+    
             const matriz = obtenerMatriz();
             if(!matriz) return;
-
-            // Construir tabla matriz
+    
+            // Construir tabla de matriz 4x4
             let tabla = '<table style="border-collapse: collapse;">';
             for(let i=0;i<4;i++){
                 tabla+='<tr>';
@@ -169,39 +169,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 tabla+='</tr>';
             }
             tabla+='</table>';
-
-            // Crear contenedor de impresión
-            const imprimirDiv = document.createElement('div');
+    
+            // Eliminar div de impresión previo si existe
+            let imprimirDiv = document.getElementById('area-impresion');
+            if(imprimirDiv){
+                imprimirDiv.remove();  // limpio antes de crear uno nuevo
+            }
+    
+            // Crear nuevo div temporal para impresión
+            imprimirDiv = document.createElement('div');
             imprimirDiv.id = 'area-impresion';
             imprimirDiv.innerHTML = `
                 <h2>🔢 Determinante de Matriz 4x4</h2>
                 <div class="matriz">${tabla}</div>
-                <div class="resultado"><strong>Resultado:</strong><br>${resultadoDiv.innerHTML}</div>
+                <div class="resultado"><strong>Resultado:</strong> ${resultadoDiv.textContent}</div>
                 <div class="pasos">${pasosSolucion}</div>
             `;
-
+    
             // Ajustar colores según modo
             const body = document.body;
             const pasosCont = imprimirDiv.querySelector('.pasos');
-            if(body.classList.contains('dark-mode')){
-                pasosCont.style.backgroundColor = '#333';
-                pasosCont.style.color = '#fff';
-                pasosCont.style.border = '1px solid #555';
-                pasosCont.style.padding = '10px';
-                pasosCont.style.borderRadius = '5px';
-            } else {
-                pasosCont.style.backgroundColor = '#f9f9f9';
-                pasosCont.style.color = '#000';
-                pasosCont.style.border = '1px solid #ccc';
-                pasosCont.style.padding = '10px';
-                pasosCont.style.borderRadius = '5px';
-            }
-
+            pasosCont.style.padding = '10px';
+            pasosCont.style.borderRadius = '5px';
+            pasosCont.style.border = body.classList.contains('dark-mode') ? '1px solid #555' : '1px solid #ccc';
+            pasosCont.style.backgroundColor = body.classList.contains('dark-mode') ? '#333' : '#f9f9f9';
+            pasosCont.style.color = body.classList.contains('dark-mode') ? '#fff' : '#000';
+    
+            // Añadir temporalmente al body, imprimir y eliminar
             document.body.appendChild(imprimirDiv);
             window.print();
-            document.body.removeChild(imprimirDiv);
+            imprimirDiv.remove();
         });
     }
+       
 
     if(limpiarBtn){
         limpiarBtn.addEventListener('click',()=>{
