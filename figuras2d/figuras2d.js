@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const volverBtn = document.getElementById('volverBtn');
     if (volverBtn) {
         volverBtn.addEventListener('click', () => {
-            window.location.href = '../index.html';
+            history.back();
         });
     }
 
@@ -57,8 +57,47 @@ document.addEventListener('DOMContentLoaded', () => {
     // 🔹 Función para validar números positivos
     // ============================
     function validarNumero(valor) {
-        const num = parseFloat(valor);
-        return !isNaN(num) && num >= 0;
+        // Valida que el valor sea un número positivo (sin letras)
+        const regexNumero = /^\d*\.?\d*$/; // Solo números y punto decimal
+        return regexNumero.test(valor) && parseFloat(valor) >= 0;
+    }
+
+    //Para el circulo (Cambiar la letra en tiempo real)
+    const inputRadio = document.getElementById('radio');
+    const textoRadio = document.getElementById('textoRadio');
+
+    if (inputRadio && textoRadio) {
+        inputRadio.addEventListener('input', () => {
+            textoRadio.textContent = 'r: ' + inputRadio.value;
+        });
+    }
+    //Para el Cuadrado (Cambiar la letra en tiempo real)
+    const inputLado = document.getElementById('lado');
+    const textoLado = document.getElementById('textoLado');
+
+    if (inputLado && textoLado) {
+        inputLado.addEventListener('input', () => {
+            textoLado.textContent = 'l: ' + inputLado.value;
+        });
+    }
+
+    //Para el Triangulo (Cambiar la letra en tiempo real)
+    const inputBase = document.getElementById('base');
+    const textoBase = document.getElementById('textoBase');
+
+    const inputAltura = document.getElementById('altura');
+    const textoAltura = document.getElementById('textoAltura');
+
+    if (inputBase && textoBase) {
+        inputBase.addEventListener('input', () => {
+            textoBase.textContent = 'b: ' + inputBase.value;
+        });
+    }
+
+    if (inputAltura && textoAltura) {
+        inputAltura.addEventListener('input', () => {
+            textoAltura.textContent = 'h: ' + inputAltura.value;
+        });
     }
 
     // ============================

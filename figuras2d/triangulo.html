@@ -12,7 +12,31 @@
         <h1>Área y Perímetro del Triángulo</h1>
 
         <!-- Imagen del triángulo -->
-        <img src="../imagenes/Triangulo.png" alt="Triángulo" style="width:150px;margin-bottom:1rem;">
+        <div id="trianguloContenedor" style="position: relative; width: 200px; height: 200px; margin: 0 auto 1rem auto; text-align: center;">
+            <img src="../imagenes/Triangulo.png" alt="Triángulo" style="width: 100%; height: 100%; display: block;">
+            
+            <div id="textoBase" style="
+                position: absolute;
+                top: 90%;  /* ajusta para posicionar */
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 0.9rem;
+                font-weight: bold;
+                color: green;
+                pointer-events: none;
+            ">b: 0</div>
+
+            <div id="textoAltura" style="
+                position: absolute;
+                top: 50%; /* ajusta para posicionar */
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 0.9rem;
+                font-weight: bold;
+                color: red;
+                pointer-events: none;
+            ">h: 0</div>
+        </div>
 
         <!-- Formulario de ingreso -->
         <form id="trianguloForm">

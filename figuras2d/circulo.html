@@ -12,12 +12,25 @@
         <h1>Área y Perímetro del Círculo</h1>
 
         <!-- Imagen del círculo -->
-        <img src="../imagenes/Circulo.png" alt="Círculo" style="width:150px;margin-bottom:1rem;">
+        <div id="imagenContenedor" style="text-align: center; margin-bottom: 1rem;">
+            <img src="../imagenes/Circulo.png" alt="Círculo" style="width:200px; height:200px; display: inline-block;">
+            <div id="textoRadio" style="
+                position: absolute;
+                top: 23%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 12px;
+                font-weight: bold;
+                color: red;
+                pointer-events: none;
+            "></div>
+        </div>
 
         <!-- Formulario de ingreso -->
         <form id="circuloForm">
             <label for="radio">Radio (r):</label>
-            <input type="number" id="radio" placeholder="Ingresa el radio" required>
+            <input type="text" id="radio" placeholder="Ingresa el radio" required>
+            <div id="errorRadio" class="error-message" style="display:none;">Por favor ingresa solo números válidos</div>
             
             <div class="acciones">
                 <button type="button" id="calcularArea">Calcular Área</button>
