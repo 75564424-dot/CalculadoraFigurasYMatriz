@@ -6,73 +6,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
 
     // ============================
-    // 🔹 Botones para volver
+    // 🔹 Función para mostrar mensajes en la tarjeta
     // ============================
-    const volverBtn = document.getElementById('volverBtn');
-    if (volverBtn) {
-        volverBtn.addEventListener('click', () => {
-            window.location.href = '../index.html';
-        });
-    }
+    function mostrarMensaje(texto, tipo = "info") {
+        const mensajeDiv = document.getElementById('mensaje');
+        if (!mensajeDiv) return;
+        mensajeDiv.textContent = texto;
 
-    const volverFigurasBtn = document.getElementById('volverFiguras');
-    if (volverFigurasBtn) {
-        volverFigurasBtn.addEventListener('click', () => {
-            window.location.href = 'figuras3d.html';
-        });
-    }
-
-    // ============================
-    // 🔹 Historial
-    // ============================
-    const historialBtn = document.getElementById('historialBtn');
-    if(historialBtn) {
-        historialBtn.addEventListener('click', () => {
-            if (!usuarioActual) {
-                alert('No hay usuario logeado');
-                return;
-            }
-
-            const historial = usuarioActual.historial || [];
-            if (historial.length === 0) {
-                alert('No hay entradas de historial aún');
-                return;
-            }
-
-            alert('Historial:\n' + historial.map(h => `${h.usuario} - ${h.calculo}`).join('\n'));
-        });
-    }
-
-    // ============================
-    // 🔹 Guardar historial solo al entrar desde tarjeta
-    // ============================
-    async function guardarHistorial(calculo) {
-        if (!calculo) return;
-    
-        const fechaHora = new Date().toLocaleString(); // obtiene fecha y hora local
-        const nuevaEntrada = { calculo, fecha: fechaHora };
-    
-        // Si hay usuario logeado, seguimos guardando en localStorage
-        if (usuarioActual) {
-            usuarioActual.historial = usuarioActual.historial || [];
-            usuarioActual.historial.push(nuevaEntrada);
-            localStorage.setItem('usuarioActual', JSON.stringify(usuarioActual));
-    
-            try {
-                await fetch(`http://127.0.0.1:5000/perfiles/${usuarioActual.id}`, {
-                    method: 'PUT',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ historial: usuarioActual.historial })
-                });
-            } catch(err) {
-                console.error('Error al actualizar historial en API:', err);
-            }
-        } else {
-            // Si no hay usuario, podemos guardar igual en una variable local o no guardar
-            console.log('Historial temporal:', nuevaEntrada);
+        // Limpiar clases anteriores
+        mensajeDiv.classList.remove('error');
+        if (tipo === "error") {
+            mensajeDiv.classList.add('error');
         }
     }
-    
+
+    // ============================
+    // 🔹 Guardar historial en API
+    // ============================
+    async function enviarHistorialAPI(seccion, calculo) {
+        if (!usuarioActual) return;
+
+        const fechaHora = new Date().toLocaleString();
+        const nuevaEntrada = { seccion, calculo, fechaHora };
+
+        // Guardar en el historial local del usuario
+        usuarioActual.historial = usuarioActual.historial || [];
+        usuarioActual.historial.push(nuevaEntrada);
+        localStorage.setItem('usuarioActual', JSON.stringify(usuarioActual));
+
+        // Intentar enviar al servidor
+        try {
+            await fetch(`http://127.0.0.1:5000/perfiles/${usuarioActual.id}`, {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ historial: usuarioActual.historial })
+            });
+        } catch (err) {
+            console.error('Error al actualizar historial en API:', err);
+        }
+    }
+
     // ============================
     // 🔹 Navegación desde tarjetas
     // ============================
@@ -82,23 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const calculo = tarjeta.dataset.calculo;
             const href = tarjeta.dataset.href;
 
-            // Guardar historial solo si hay usuario logeado
             if (usuarioActual && calculo) {
-                guardarHistorial(calculo);
+                // Guardar historial global y API
+                guardarHistorialGlobal("Figuras 3D", calculo);
+                enviarHistorialAPI("Figuras 3D", calculo);
             }
 
-            // Redirigir siempre, aunque no haya usuario
             if (href) window.location.href = href;
         });
     });
-
-    // ============================
-    // 🔹 Validación de números positivos
-    // ============================
-    function validarNumero(valor) {
-        const num = parseFloat(valor);
-        return !isNaN(num) && num > 0;
-    }
 
     // ============================
     // 🔹 Referencia al div de resultados
@@ -112,24 +77,34 @@ document.addEventListener('DOMContentLoaded', () => {
     // ---- Esfera ----
     function calcularVolumenEsfera() {
         const radio = document.getElementById('radio').value.trim();
-        if (!validarNumero(radio)) { alert('Error: ingresa un número positivo mayor que 0'); return; }
+        if (!validarNumero(radio)) { 
+            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el radio.', 'error');
+            return; 
+        }
 
         const r = parseFloat(radio);
         const volumen = (4/3) * Math.PI * r**3;
 
         resultadoDiv.innerHTML = `
             <h3>Volumen de la Esfera</h3>
-            <p>Fórmula: V = 4/3 × π × r³</p>
+            <p>Fórmula: V = (4/3) × π × r³</p>
             <ul>
                 <li>Radio ingresado: ${r}</li>
                 <li>Volumen = ${volumen.toFixed(2)}</li>
             </ul>
         `;
+
+        mostrarMensaje('✅ Cálculo realizado correctamente.');
+        guardarHistorialGlobal("Figuras 3D", "Volumen Esfera");
+        enviarHistorialAPI("Figuras 3D", "Volumen Esfera");
     }
 
     function calcularAreaEsfera() {
         const radio = document.getElementById('radio').value.trim();
-        if (!validarNumero(radio)) { alert('Error: ingresa un número positivo mayor que 0'); return; }
+        if (!validarNumero(radio)) { 
+            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el radio.', 'error');
+            return; 
+        }
 
         const r = parseFloat(radio);
         const area = 4 * Math.PI * r**2;
@@ -142,12 +117,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>Área superficial = ${area.toFixed(2)}</li>
             </ul>
         `;
+
+        mostrarMensaje('✅ Cálculo realizado correctamente.');
+        guardarHistorialGlobal("Figuras 3D", "Área Esfera");
+        enviarHistorialAPI("Figuras 3D", "Área Esfera");
     }
 
     // ---- Cubo ----
     function calcularVolumenCubo() {
         const lado = document.getElementById('lado').value.trim();
-        if (!validarNumero(lado)) { alert('Error: ingresa un número positivo mayor que 0'); return; }
+        if (!validarNumero(lado)) { 
+            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el lado.', 'error');
+            return; 
+        }
 
         const l = parseFloat(lado);
         const volumen = l**3;
@@ -160,11 +142,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>Volumen = ${volumen}</li>
             </ul>
         `;
+
+        mostrarMensaje('✅ Cálculo realizado correctamente.');
+        guardarHistorialGlobal("Figuras 3D", "Volumen Cubo");
+        enviarHistorialAPI("Figuras 3D", "Volumen Cubo");
     }
 
     function calcularAreaCubo() {
         const lado = document.getElementById('lado').value.trim();
-        if (!validarNumero(lado)) { alert('Error: ingresa un número positivo mayor que 0'); return; }
+        if (!validarNumero(lado)) { 
+            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el lado.', 'error');
+            return; 
+        }
 
         const l = parseFloat(lado);
         const area = 6 * l**2;
@@ -177,6 +166,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>Área superficial = ${area.toFixed(2)}</li>
             </ul>
         `;
+
+        mostrarMensaje('✅ Cálculo realizado correctamente.');
+        guardarHistorialGlobal("Figuras 3D", "Área Cubo");
+        enviarHistorialAPI("Figuras 3D", "Área Cubo");
     }
 
     // ---- Cilindro ----
@@ -184,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const radio = document.getElementById('radio').value.trim();
         const altura = document.getElementById('altura').value.trim();
         if (!validarNumero(radio) || !validarNumero(altura)) { 
-            alert('Error: ingresa números positivos mayores que 0'); 
+            mostrarMensaje('⚠️ Ingresa valores válidos y mayores que 0 para radio y altura.', 'error');
             return; 
         }
 
@@ -201,13 +194,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>Volumen = ${volumen.toFixed(2)}</li>
             </ul>
         `;
+
+        mostrarMensaje('✅ Cálculo realizado correctamente.');
+        guardarHistorialGlobal("Figuras 3D", "Volumen Cilindro");
+        enviarHistorialAPI("Figuras 3D", "Volumen Cilindro");
     }
 
     function calcularAreaCilindro() {
         const radio = document.getElementById('radio').value.trim();
         const altura = document.getElementById('altura').value.trim();
         if (!validarNumero(radio) || !validarNumero(altura)) { 
-            alert('Error: ingresa números positivos mayores que 0'); 
+            mostrarMensaje('⚠️ Ingresa valores válidos y mayores que 0 para radio y altura.', 'error');
             return; 
         }
 
@@ -224,10 +221,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 <li>Área superficial = ${area.toFixed(2)}</li>
             </ul>
         `;
+
+        mostrarMensaje('✅ Cálculo realizado correctamente.');
+        guardarHistorialGlobal("Figuras 3D", "Área Cilindro");
+        enviarHistorialAPI("Figuras 3D", "Área Cilindro");
     }
 
     // ============================
-    // 🔹 Botones de cálculo (funcionan aunque no haya usuario)
+    // 🔹 Botones de cálculo
     // ============================
     const calcularAreaBtn = document.getElementById('calcularArea');
     const calcularVolumenBtn = document.getElementById('calcularVolumen');
@@ -256,14 +257,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Captura del input del radio
+    // ============================
+    // 🔹 Actualizar texto sobre la imagen
+    // ============================
     const inputRadio = document.getElementById('radio');
     const spanRadio = document.getElementById('valorRadio');
 
     if (inputRadio && spanRadio) {
         inputRadio.addEventListener('input', () => {
             const valor = inputRadio.value.trim();
-            spanRadio.textContent = valor; // actualiza el span sobre la imagen
+            spanRadio.textContent = valor;
         });
     }
 

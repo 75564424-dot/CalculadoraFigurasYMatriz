@@ -8,12 +8,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const imprimirBtn = document.getElementById('imprimirSolucion');
     const limpiarBtn = document.getElementById('limpiarMatriz');
     const volverBtn = document.getElementById('volverBtn');
-
     const resultadoDiv = document.getElementById('resultado');
 
     // Crear contenedor de pasos debajo del resultado
     let pasosDiv = document.getElementById('pasos-resolucion');
-    if(!pasosDiv) {
+    if (!pasosDiv) {
         pasosDiv = document.createElement('div');
         pasosDiv.id = 'pasos-resolucion';
         pasosDiv.style.marginTop = '1rem';
@@ -29,43 +28,71 @@ document.addEventListener('DOMContentLoaded', () => {
     let pasosSolucion = '';
 
     // ============================
-    // 🔹 Funciones auxiliares
+    // 🔹 Obtener matriz
     // ============================
-    function validarNumero(valor) {
-        const num = parseFloat(valor);
-        return !isNaN(num);
-    }
-
     function obtenerMatriz() {
         const matriz = [];
         for (let i = 0; i < 4; i++) {
             const fila = [];
             for (let j = 0; j < 4; j++) {
                 const input = document.getElementById(`m${i}${j}`);
-                if(!input) { alert(`Error: input m${i}${j} no encontrado`); return null; }
+                if (!input) {
+                    mostrarMensajeError(`Error: input m${i}${j} no encontrado`);
+                    return null;
+                }
+    
                 const valor = input.value.trim();
-                if(valor === '') { alert('Todos los campos deben estar completos'); return null; }
-                if(!validarNumero(valor)) { alert('Todos los campos deben ser números'); return null; }
+                if (valor === '') {
+                    mostrarMensajeError('❌ Todos los campos deben estar completos.');
+                    return null;
+                }
+    
+                // ✅ Validación especial para matrices
+                if (!validarNumeroMatriz(valor)) {
+                    mostrarMensajeError('⚠️ Los campos deben contener números válidos (pueden ser negativos o cero).');
+                    return null;
+                }
+    
                 fila.push(parseFloat(valor));
             }
             matriz.push(fila);
         }
         return matriz;
+    }    
+
+    // ============================
+    // 🔹 Validación local para matrices
+    // (permite números negativos y cero)
+    // ============================
+    function validarNumeroMatriz(valor) {
+        const patron = /^-?\d+(\.\d+)?$/; // acepta negativos y decimales
+        return patron.test(valor.trim());
     }
 
+    // ============================
+    // 🔹 Mostrar mensajes dentro del resultado
+    // ============================
+    function mostrarMensajeError(mensaje) {
+        resultadoDiv.innerHTML = `<div class="mensaje-error">${mensaje}</div>`;
+        pasosDiv.style.display = 'none';
+    }
+
+    // ============================
+    // 🔹 Cálculo determinante paso a paso
+    // ============================
     function determinante3x3(m) {
-        return m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])
-             - m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])
-             + m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);
+        return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
+            - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0])
+            + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
     }
 
     function obtenerSubmatriz(m, fila, col) {
         const sub = [];
-        for(let i=0; i<4; i++){
-            if(i===fila) continue;
+        for (let i = 0; i < 4; i++) {
+            if (i === fila) continue;
             const filaSub = [];
-            for(let j=0; j<4; j++){
-                if(j===col) continue;
+            for (let j = 0; j < 4; j++) {
+                if (j === col) continue;
                 filaSub.push(m[i][j]);
             }
             sub.push(filaSub);
@@ -86,30 +113,27 @@ document.addEventListener('DOMContentLoaded', () => {
         return html;
     }
 
-    // ============================
-    // 🔹 Resolver determinante paso a paso
-    // ============================
     function resolverDeterminantePasoAPaso(matriz) {
         const pasos = [];
         pasos.push('<strong>🔍 Resolviendo determinante de matriz 4x4 mediante expansión por cofactores de la primera fila:</strong><br>');
 
-        const signos = [1,-1,1,-1];
+        const signos = [1, -1, 1, -1];
         let total = 0;
 
         for (let j = 0; j < 4; j++) {
             const elemento = matriz[0][j];
-            const sub = obtenerSubmatriz(matriz,0,j);
+            const sub = obtenerSubmatriz(matriz, 0, j);
             const detSub = determinante3x3(sub);
-            const producto = signos[j]*elemento*detSub;
+            const producto = signos[j] * elemento * detSub;
             total += producto;
 
             pasos.push(`
                 <div style="margin-bottom:10px; padding:8px; border-left:5px solid #2196F3; border-radius:4px;">
-                    <strong>Paso ${j+1}:</strong> Se toma el elemento <strong>${elemento}</strong> de la primera fila.<br>
-                    Se calcula la determinante de la submatriz 3x3 correspondiente:<br>
+                    <strong>Paso ${j + 1}:</strong> Se toma el elemento <strong>${elemento}</strong> de la primera fila.<br>
+                    Submatriz correspondiente:<br>
                     ${formatearSubmatriz(sub)}
                     Determinante de submatriz: <strong>${detSub.toFixed(3)}</strong><br>
-                    Producto con el signo (${signos[j]>0 ? '+' : '−'}): <strong>${producto.toFixed(3)}</strong>
+                    Producto con el signo (${signos[j] > 0 ? '+' : '−'}): <strong>${producto.toFixed(3)}</strong>
                 </div>
             `);
         }
@@ -127,10 +151,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // ============================
     // 🔹 Botones
     // ============================
-    if(calcularDetBtn){
-        calcularDetBtn.addEventListener('click',()=>{
+    if (calcularDetBtn) {
+        calcularDetBtn.addEventListener('click', () => {
             const matriz = obtenerMatriz();
-            if(!matriz) return;
+            if (!matriz) return;
 
             const det = resolverDeterminantePasoAPaso(matriz);
             resultadoDiv.innerHTML = `<h3>Determinante: ${det.toFixed(3)}</h3>`;
@@ -138,12 +162,18 @@ document.addEventListener('DOMContentLoaded', () => {
             pasosGenerados = false;
             pasosDiv.style.display = 'none';
             actualizarColorPasos();
+
+            // ✅ Registrar historial global
+            guardarHistorialGlobal("Matrices", "Determinante 4x4");
         });
     }
 
-    if(verPasosBtn){
-        verPasosBtn.addEventListener('click',()=>{
-            if(!matrizCalculada){ alert('Primero calcula la determinante'); return; }
+    if (verPasosBtn) {
+        verPasosBtn.addEventListener('click', () => {
+            if (!matrizCalculada) {
+                mostrarMensajeError('Primero calcula la determinante.');
+                return;
+            }
             pasosDiv.innerHTML = pasosSolucion;
             pasosDiv.style.display = 'block';
             pasosGenerados = true;
@@ -151,100 +181,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if(imprimirBtn){
-        imprimirBtn.addEventListener('click', ()=>{
-            if(!matrizCalculada){ alert('Primero calcula la determinante'); return; }
-            if(!pasosGenerados){ alert('Primero muestra los pasos'); return; }
-    
-            const matriz = obtenerMatriz();
-            if(!matriz) return;
-    
-            // Construir tabla de matriz 4x4
-            let tabla = '<table style="border-collapse: collapse;">';
-            for(let i=0;i<4;i++){
-                tabla+='<tr>';
-                for(let j=0;j<4;j++){
-                    tabla+=`<td style="border:1px solid #000;padding:5px;text-align:center">${matriz[i][j]}</td>`;
-                }
-                tabla+='</tr>';
+    if (imprimirBtn) {
+        imprimirBtn.addEventListener('click', () => {
+            if (!matrizCalculada) {
+                mostrarMensajeError('Primero calcula la determinante.');
+                return;
             }
-            tabla+='</table>';
-    
-            // Eliminar div de impresión previo si existe
-            let imprimirDiv = document.getElementById('area-impresion');
-            if(imprimirDiv){
-                imprimirDiv.remove();  // limpio antes de crear uno nuevo
+            if (!pasosGenerados) {
+                mostrarMensajeError('Primero muestra los pasos.');
+                return;
             }
     
-            // Crear nuevo div temporal para impresión
-            imprimirDiv = document.createElement('div');
-            imprimirDiv.id = 'area-impresion';
-            imprimirDiv.innerHTML = `
-                <h2>🔢 Determinante de Matriz 4x4</h2>
-                <div class="matriz">${tabla}</div>
-                <div class="resultado"><strong>Resultado:</strong> ${resultadoDiv.textContent}</div>
-                <div class="pasos">${pasosSolucion}</div>
-            `;
-    
-            // Ajustar colores según modo
-            const body = document.body;
-            const pasosCont = imprimirDiv.querySelector('.pasos');
-            pasosCont.style.padding = '10px';
-            pasosCont.style.borderRadius = '5px';
-            pasosCont.style.border = body.classList.contains('dark-mode') ? '1px solid #555' : '1px solid #ccc';
-            pasosCont.style.backgroundColor = body.classList.contains('dark-mode') ? '#333' : '#f9f9f9';
-            pasosCont.style.color = body.classList.contains('dark-mode') ? '#fff' : '#000';
-    
-            // Añadir temporalmente al body, imprimir y eliminar
-            document.body.appendChild(imprimirDiv);
+            // ✅ Solo imprime la página actual como está
             window.print();
-            imprimirDiv.remove();
         });
-    }
-       
-
-    if(limpiarBtn){
-        limpiarBtn.addEventListener('click',()=>{
-            for(let i=0;i<4;i++){
-                for(let j=0;j<4;j++){
-                    document.getElementById(`m${i}${j}`).value='';
+    }    
+      
+    if (limpiarBtn) {
+        limpiarBtn.addEventListener('click', () => {
+            for (let i = 0; i < 4; i++) {
+                for (let j = 0; j < 4; j++) {
+                    document.getElementById(`m${i}${j}`).value = '';
                 }
             }
-            resultadoDiv.innerHTML='';
-            pasosDiv.style.display='none';
-            matrizCalculada=false;
-            pasosGenerados=false;
-            pasosSolucion='';
+            resultadoDiv.innerHTML = '';
+            pasosDiv.style.display = 'none';
+            matrizCalculada = false;
+            pasosGenerados = false;
+            pasosSolucion = '';
         });
     }
 
-    if(volverBtn){
-        volverBtn.addEventListener('click',()=>window.location.href='../index.html');
+    if (volverBtn) {
+        volverBtn.addEventListener('click', () => window.location.href = '../index.html');
     }
 
     // ============================
-    // 🔹 Ajuste de color según modo
+    // 🔹 Ajuste de color
     // ============================
     function actualizarColorPasos() {
         const body = document.body;
-        if(body.classList.contains('dark-mode')){
-            pasosDiv.style.color = '#fff';
-            pasosDiv.style.backgroundColor = '#333';
-        } else {
-            pasosDiv.style.color = '#000';
-            pasosDiv.style.backgroundColor = '#f9f9f9';
-        }
+        pasosDiv.style.color = body.classList.contains('dark-mode') ? '#fff' : '#000';
+        pasosDiv.style.backgroundColor = body.classList.contains('dark-mode') ? '#333' : '#f9f9f9';
     }
 
-    // Llamamos al cargar la página
     actualizarColorPasos();
 
-    // Actualizar cuando cambie el modo
     const modoBtn = document.getElementById('modoBtn');
-    if(modoBtn){
-        modoBtn.addEventListener('click', ()=>{
-            setTimeout(actualizarColorPasos, 100);
-        });
+    if (modoBtn) {
+        modoBtn.addEventListener('click', () => setTimeout(actualizarColorPasos, 100));
     }
 
 });

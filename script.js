@@ -25,12 +25,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================
-    // 🔹 Botón Volver (login.html)
+    // 🔹 Botones Para Volver
     // ============================
     const volverBtn = document.getElementById('volverBtn');
     if (volverBtn) {
         volverBtn.addEventListener('click', () => {
             window.location.href = '../index.html';
+        });
+    }
+    const volverFiguras3dBtn = document.getElementById('volverFiguras3d');
+    if (volverFiguras3dBtn) {
+        volverFiguras3dBtn.addEventListener('click', () => {
+            window.location.href = 'figuras3d.html';
+        });
+    }
+    const volverFiguras2dBtn = document.getElementById('volverFiguras2d');
+    if (volverFiguras2dBtn) {
+        volverFiguras2dBtn.addEventListener('click', () => {
+            window.location.href = 'figuras2d.html';
         });
     }
 
@@ -173,5 +185,43 @@ document.addEventListener('DOMContentLoaded', () => {
         logoutBtn?.classList.add('oculto');
         deleteBtn?.classList.add('oculto');
     }
-
 });
+
+    // ============================
+    // 🔹 Utilidades de forma general
+    // ============================
+
+    // ============================
+    // 🔹 Función general de validación numérica
+    // ============================
+    function validarNumero(valor) {
+        const patron = /^(\d+(\.\d+)?)$/;
+        if (!patron.test(valor)) {
+            return false;
+        }
+        const num = parseFloat(valor);
+        return num > 0;
+    }
+
+    // ============================
+    // 🔹 Función para registrar historial global
+    // ============================
+    function guardarHistorialGlobal(seccion, calculo) {
+        const fechaHora = new Date().toLocaleString(); // Fecha y hora local
+
+        // Cargar historial existente del localStorage (o crear uno nuevo)
+        const historial = JSON.parse(localStorage.getItem("historialCalculos")) || [];
+
+        // Crear el nuevo registro
+        const nuevoRegistro = {
+            seccion: seccion,   // Ejemplo: "Figuras 3D"
+            calculo: calculo,   // Ejemplo: "Cilindro"
+            fechaHora: fechaHora
+        };
+
+        // Agregarlo al historial
+        historial.push(nuevoRegistro);
+
+        // Guardarlo nuevamente
+        localStorage.setItem("historialCalculos", JSON.stringify(historial));
+    }
