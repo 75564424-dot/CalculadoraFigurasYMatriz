@@ -1,3 +1,8 @@
+// ============================
+// 📘 MATRICES.JS
+// Módulo para cálculo del determinante 4x4 con historial y modo persistente
+// ============================
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================
@@ -10,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const volverBtn = document.getElementById('volverBtn');
     const resultadoDiv = document.getElementById('resultado');
 
-    // Crear contenedor de pasos debajo del resultado
+    // 🔸 Contenedor para pasos
     let pasosDiv = document.getElementById('pasos-resolucion');
     if (!pasosDiv) {
         pasosDiv = document.createElement('div');
@@ -23,12 +28,15 @@ document.addEventListener('DOMContentLoaded', () => {
         resultadoDiv.insertAdjacentElement('afterend', pasosDiv);
     }
 
+    // ============================
+    // 🔹 Variables de control
+    // ============================
     let matrizCalculada = false;
     let pasosGenerados = false;
     let pasosSolucion = '';
 
     // ============================
-    // 🔹 Obtener matriz
+    // 🔹 Obtener valores de la matriz
     // ============================
     function obtenerMatriz() {
         const matriz = [];
@@ -40,37 +48,35 @@ document.addEventListener('DOMContentLoaded', () => {
                     mostrarMensajeError(`Error: input m${i}${j} no encontrado`);
                     return null;
                 }
-    
+
                 const valor = input.value.trim();
                 if (valor === '') {
                     mostrarMensajeError('❌ Todos los campos deben estar completos.');
                     return null;
                 }
-    
-                // ✅ Validación especial para matrices
+
                 if (!validarNumeroMatriz(valor)) {
-                    mostrarMensajeError('⚠️ Los campos deben contener números válidos (pueden ser negativos o cero).');
+                    mostrarMensajeError('⚠️ Solo se permiten números válidos (pueden ser negativos o cero).');
                     return null;
                 }
-    
+
                 fila.push(parseFloat(valor));
             }
             matriz.push(fila);
         }
         return matriz;
-    }    
+    }
 
     // ============================
-    // 🔹 Validación local para matrices
-    // (permite números negativos y cero)
+    // 🔹 Validación (permite 0 y negativos)
     // ============================
     function validarNumeroMatriz(valor) {
-        const patron = /^-?\d+(\.\d+)?$/; // acepta negativos y decimales
+        const patron = /^-?\d+(\.\d+)?$/;
         return patron.test(valor.trim());
     }
 
     // ============================
-    // 🔹 Mostrar mensajes dentro del resultado
+    // 🔹 Mostrar mensajes de error
     // ============================
     function mostrarMensajeError(mensaje) {
         resultadoDiv.innerHTML = `<div class="mensaje-error">${mensaje}</div>`;
@@ -78,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ============================
-    // 🔹 Cálculo determinante paso a paso
+    // 🔹 Determinante 3x3
     // ============================
     function determinante3x3(m) {
         return m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1])
@@ -86,6 +92,9 @@ document.addEventListener('DOMContentLoaded', () => {
             + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
     }
 
+    // ============================
+    // 🔹 Submatriz para cofactores
+    // ============================
     function obtenerSubmatriz(m, fila, col) {
         const sub = [];
         for (let i = 0; i < 4; i++) {
@@ -100,6 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return sub;
     }
 
+    // ============================
+    // 🔹 Mostrar submatriz como tabla
+    // ============================
     function formatearSubmatriz(submatriz) {
         let html = '<table style="border-collapse: collapse; margin:5px 0;">';
         for (const fila of submatriz) {
@@ -113,9 +125,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return html;
     }
 
+    // ============================
+    // 🔹 Resolver determinante paso a paso
+    // ============================
     function resolverDeterminantePasoAPaso(matriz) {
         const pasos = [];
-        pasos.push('<strong>🔍 Resolviendo determinante de matriz 4x4 mediante expansión por cofactores de la primera fila:</strong><br>');
+        pasos.push('<strong>🔍 Resolviendo determinante 4x4 (expansión por cofactores de la primera fila):</strong><br>');
 
         const signos = [1, -1, 1, -1];
         let total = 0;
@@ -129,23 +144,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
             pasos.push(`
                 <div style="margin-bottom:10px; padding:8px; border-left:5px solid #2196F3; border-radius:4px;">
-                    <strong>Paso ${j + 1}:</strong> Se toma el elemento <strong>${elemento}</strong> de la primera fila.<br>
-                    Submatriz correspondiente:<br>
-                    ${formatearSubmatriz(sub)}
-                    Determinante de submatriz: <strong>${detSub.toFixed(3)}</strong><br>
-                    Producto con el signo (${signos[j] > 0 ? '+' : '−'}): <strong>${producto.toFixed(3)}</strong>
+                    <strong>Paso ${j + 1}:</strong> Elemento <strong>${elemento}</strong> de la primera fila.<br>
+                    Submatriz:<br>${formatearSubmatriz(sub)}
+                    Determinante submatriz: <strong>${detSub.toFixed(3)}</strong><br>
+                    Producto (${signos[j] > 0 ? '+' : '−'}): <strong>${producto.toFixed(3)}</strong>
                 </div>
             `);
         }
 
         pasos.push(`
             <div style="margin-top:10px; padding:10px; border-left:5px solid #4CAF50; border-radius:4px;">
-                <strong>✅ Determinante total de la matriz 4x4:</strong> ${total.toFixed(3)}
+                <strong>✅ Determinante total:</strong> ${total.toFixed(3)}
             </div>
         `);
 
         pasosSolucion = pasos.join('');
         return total;
+    }
+
+    // ============================
+    // 🔹 Guardar historial local + API
+    // ============================
+    function registrarHistorial() {
+        guardarHistorialGlobal("Matrices", "Cálculo de determinante");
+        enviarHistorialAPI("Cálculo de determinante");
     }
 
     // ============================
@@ -162,18 +184,13 @@ document.addEventListener('DOMContentLoaded', () => {
             pasosGenerados = false;
             pasosDiv.style.display = 'none';
             actualizarColorPasos();
-
-            // ✅ Registrar historial global
-            guardarHistorialGlobal("Matrices", "Determinante 4x4");
+            registrarHistorial();
         });
     }
 
     if (verPasosBtn) {
         verPasosBtn.addEventListener('click', () => {
-            if (!matrizCalculada) {
-                mostrarMensajeError('Primero calcula la determinante.');
-                return;
-            }
+            if (!matrizCalculada) return mostrarMensajeError('Primero calcula la determinante.');
             pasosDiv.innerHTML = pasosSolucion;
             pasosDiv.style.display = 'block';
             pasosGenerados = true;
@@ -183,20 +200,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (imprimirBtn) {
         imprimirBtn.addEventListener('click', () => {
-            if (!matrizCalculada) {
-                mostrarMensajeError('Primero calcula la determinante.');
-                return;
-            }
-            if (!pasosGenerados) {
-                mostrarMensajeError('Primero muestra los pasos.');
-                return;
-            }
-    
-            // ✅ Solo imprime la página actual como está
+            if (!matrizCalculada) return mostrarMensajeError('Primero calcula la determinante.');
+            if (!pasosGenerados) return mostrarMensajeError('Primero muestra los pasos.');
             window.print();
         });
-    }    
-      
+    }
+
     if (limpiarBtn) {
         limpiarBtn.addEventListener('click', () => {
             for (let i = 0; i < 4; i++) {
@@ -212,12 +221,10 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (volverBtn) {
-        volverBtn.addEventListener('click', () => window.location.href = '../index.html');
-    }
+    if (volverBtn) volverBtn.addEventListener('click', () => window.location.href = '../index.html');
 
     // ============================
-    // 🔹 Ajuste de color
+    // 🔹 Ajuste visual modo oscuro
     // ============================
     function actualizarColorPasos() {
         const body = document.body;
@@ -228,8 +235,5 @@ document.addEventListener('DOMContentLoaded', () => {
     actualizarColorPasos();
 
     const modoBtn = document.getElementById('modoBtn');
-    if (modoBtn) {
-        modoBtn.addEventListener('click', () => setTimeout(actualizarColorPasos, 100));
-    }
-
+    if (modoBtn) modoBtn.addEventListener('click', () => setTimeout(actualizarColorPasos, 100));
 });

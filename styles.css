@@ -282,114 +282,259 @@ matricez
             padding: 1rem;
         }
 
-    .matriz-card {
-        display: inline-block;
-        background-color: var(--card-bg);
-        padding: 1rem;
-        border-radius: 12px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-        margin-bottom: 1.5rem;
-        transition: background-color 0.3s, box-shadow 0.3s;
-    }
+.matriz-card {
+    display: inline-block;
+    background-color: var(--card-bg);
+    padding: 1rem;
+    border-radius: 12px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
 
-    .matriz {
-        display: grid;
-        grid-template-columns: repeat(4, 50px); /* tamaño de columna más cómodo */
-        grid-template-rows: repeat(4, 50px);   /* altura uniforme */
-        gap: 20px; /* separación horizontal y vertical */
-        justify-content: center;
-    }
+.matriz {
+    display: grid;
+    grid-template-columns: repeat(4, 50px); /* tamaño de columna más cómodo */
+    grid-template-rows: repeat(4, 50px);   /* altura uniforme */
+    gap: 20px; /* separación horizontal y vertical */
+    justify-content: center;
+}
 
-    .matriz input {
-        width: 50px;
-        height: 50px;
-        text-align: center;
-        font-size: 16px;
-        border: 2px solid var(--input-border);
-        border-radius: 6px;
-        background-color: var(--input-bg);
-        color: var(--input-text);
-        transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s, color 0.3s;
-    }
+.matriz input {
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 16px;
+    border: 2px solid var(--input-border);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--input-text);
+    transition: border-color 0.2s, box-shadow 0.2s, background-color 0.3s, color 0.3s;
+}
 
-    .matriz input:focus {
-        border-color: var(--accent-color);
-        box-shadow: 0 0 4px var(--accent-color);
-        outline: none;
-    }
+.matriz input:focus {
+    border-color: var(--accent-color);
+    box-shadow: 0 0 4px var(--accent-color);
+    outline: none;
+}
 
-        .acciones {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 1rem;
-        }
+.acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 1rem;
+}
 
-        .acciones button {
-            padding: 0.45rem 0.9rem;
-            font-size: 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            transition: background-color 0.3s, color 0.3s;
-        }
+.acciones button {
+    padding: 0.45rem 0.9rem;
+    font-size: 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-        .acciones button:hover {
-            background-color: var(--btn-hover);
-        }
+.acciones button:hover {
+    background-color: var(--btn-hover);
+}
 
-        .emoji-matriz {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-        }
+.emoji-matriz {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
 
-        /* Variables de modo claro/oscuro */
-        body.light-mode {
-            --card-bg: #f9f9f9;
-            --input-bg: #ffffff;
-            --input-text: #333333;
-            --input-border: #ccc;
-            --accent-color: #007bff;
-            --btn-bg: #007bff;
-            --btn-text: #ffffff;
-            --btn-hover: #0056b3;
-        }
+/* Variables de modo claro/oscuro */
+body.light-mode {
+    --card-bg: #f9f9f9;
+    --input-bg: #ffffff;
+    --input-text: #333333;
+    --input-border: #ccc;
+    --accent-color: #007bff;
+    --btn-bg: #007bff;
+    --btn-text: #ffffff;
+    --btn-hover: #0056b3;
+}
 
-        body.dark-mode {
-            --card-bg: #2c2c2c;
-            --input-bg: #3c3c3c;
-            --input-text: #e0e0e0;
-            --input-border: #555;
-            --accent-color: #66b2ff;
-            --btn-bg: #66b2ff;
-            --btn-text: #000000;
-            --btn-hover: #3399ff;
-        }
-        .icono-tarjeta {
-            font-size: 4rem;       /* tamaño grande y llamativo */
-            margin-bottom: 1rem;   /* espacio entre icono y texto */
-        }
+body.dark-mode {
+    --card-bg: #2c2c2c;
+    --input-bg: #3c3c3c;
+    --input-text: #e0e0e0;
+    --input-border: #555;
+    --accent-color: #66b2ff;
+    --btn-bg: #66b2ff;
+    --btn-text: #000000;
+    --btn-hover: #3399ff;
+}
+.icono-tarjeta {
+    font-size: 4rem;       /* tamaño grande y llamativo */
+    margin-bottom: 1rem;   /* espacio entre icono y texto */
+}
         
-        /* Contenedor de imagen para poder posicionar letras encima */
-        .imagen-container {
-            position: relative;
-            width: 200px;
-            height: 200px;
-            margin: 0 auto 1rem auto;
+/* Contenedor de imagen para poder posicionar letras encima */
+.imagen-container {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 1rem auto;
+}
+
+.imagen-container img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Letras sobre la imagen */
+.letra-sobre-imagen {
+    position: absolute;
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: red; /* puedes cambiar color si quieres */
+}
+
+        /* ===========================
+        💌 Tarjeta de Bienvenida
+        =========================== */
+        #bienvenidaTarjeta {
+            max-width: 400px;
+            margin: 1.5rem auto 2rem auto;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            background-color: var(--tarjeta);
+            box-shadow: 0 3px 6px var(--sombra);
+            animation: fadeScale 0.7s ease-in-out;
         }
 
-        .imagen-container img {
+        #bienvenidaTarjeta h2 {
+            color: var(--primario);
+            margin-bottom: 0.5rem;
+        }
+
+        #bienvenidaTarjeta p {
+            color: var(--texto);
+            font-weight: 500;
+        }
+
+        body.dark-mode #bienvenidaTarjeta {
+            background-color: var(--oscuro-tarjeta);
+            box-shadow: 0 3px 6px var(--oscuro-sombra);
+        }
+
+        body.dark-mode #bienvenidaTarjeta h2 {
+            color: var(--oscuro-primario);
+        }
+
+        body.dark-mode #bienvenidaTarjeta p {
+            color: var(--oscuro-texto);
+        }
+
+/* Ocultar botones*/
+.oculto {
+  display: none !important;
+}
+
+/* ===========================
+   🚦 Mensajes de estado (semáforo)
+   =========================== */
+#mensajeAccion {
+    margin: 1rem auto;
+    padding: 1rem;
+    max-width: 500px;
+    border-radius: 12px;
+    font-weight: 600;
+    animation: fadeScale 0.6s ease-in-out;
+}
+
+/* 🟢 Éxito */
+.mensaje-verde {
+    background-color: #2ecc71;
+    color: white;
+}
+
+/* 🟠 Advertencia / Confirmación */
+.mensaje-naranja {
+    background-color: #f39c12;
+    color: white;
+}
+
+/* 🔴 Acción crítica */
+.mensaje-rojo {
+    background-color: #e74c3c;
+    color: white;
+}
+
+/*Estilos para los formularios del CRUD*/
+/* 🌑 Fondo semitransparente cuando se abre el formulario */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        /* 💳 Tarjeta del formulario */
+        .tarjeta-formulario {
+            background: var(--color-fondo, #fff);
+            color: var(--color-texto, #333);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+            animation: aparecer 0.3s ease;
+        }
+
+        @keyframes aparecer {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .tarjeta-formulario h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .tarjeta-formulario input,
+        .tarjeta-formulario select,
+        .tarjeta-formulario button {
             width: 100%;
-            height: 100%;
+            padding: 0.7rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            border: 1px solid #ccc;
+            font-size: 1rem;
         }
 
-        /* Letras sobre la imagen */
-        .letra-sobre-imagen {
-            position: absolute;
-            font-size: 0.8rem;
-            font-weight: bold;
-            color: red; /* puedes cambiar color si quieres */
+        .tarjeta-formulario button {
+            background: #0077ff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .tarjeta-formulario button:hover {
+            background: #005ecc;
+        }
+
+        .btn-peligro {
+            background: #e53935;
+        }
+
+        .btn-peligro:hover {
+            background: #c62828;
+        }
+
+        .btn-cancelar {
+            background: #757575;
+        }
+
+        .btn-cancelar:hover {
+            background: #5a5a5a;
         }

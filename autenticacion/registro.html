@@ -14,6 +14,16 @@
             <input type="text" id="nombre" placeholder="Nombre" required>
             <input type="email" id="email" placeholder="Correo Electrónico" required>
             <input type="password" id="password" placeholder="Contraseña" required>
+            <input type="password" id="confirmPassword" placeholder="Confirmar Contraseña" required>
+
+            <div class="campo">
+                <label for="modoPreferido">Modo Preferido:</label>
+                <select id="modoPreferido" required>
+                    <option value="light-mode">Claro ☀️</option>
+                    <option value="dark-mode">Oscuro 🌙</option>
+                </select>
+            </div>
+
             <div class="acciones">
                 <button type="submit">Registrar</button>
                 <button type="button" id="volverBtn">Volver</button>

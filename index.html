@@ -11,12 +11,22 @@
     <main class="contenedor">
         <h1>Calculadora Geométrica</h1>
 
+        <!-- 🔹 Tarjeta de Bienvenida -->
+        <div id="bienvenidaTarjeta" class="tarjeta oculto">
+            <h2 id="bienvenidaMensaje"></h2>
+            <p id="bienvenidaRol"></p>
+        </div>
+
         <div class="acciones">
-            <button id="modoBtn">🌙 Modo Oscuro</button>
-            <a href="autenticacion/login.html" id="loginBtn" class="btn">Iniciar Sesión</a>
-            <a href="autenticacion/registro.html" id="registroBtn" class="btn">Registrar Usuario</a>
-            <button id="logoutBtn">Cerrar Sesión</button>
-            <button id="eliminarBtn">Eliminar Usuario</button>
+        <button id="modoBtn">🌙 Modo Oscuro</button>
+        <!-- 🔹 Botones visibles sin sesión -->
+        <a href="autenticacion/login.html" id="loginBtn" class="btn oculto">Iniciar Sesión</a>
+        <a href="autenticacion/registro.html" id="registroBtn" class="btn oculto">Registrar Usuario</a>
+
+        <!-- 🔹 Botones visibles con sesión -->
+        <button id="logoutBtn" class="oculto">Cerrar Sesión</button>
+        <button id="eliminarMiUsuarioBtn" class="oculto">Eliminar mi Usuario</button>
+        <button id="eliminarUsuariosBtn" class="oculto">Eliminar Usuarios</button>
         </div>
 
         <section class="tarjetas">

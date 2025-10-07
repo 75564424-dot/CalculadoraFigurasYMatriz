@@ -1,48 +1,38 @@
+// ============================================================
+// 🧮 FIGURAS 2D - Cálculos de Área y Perímetro
+// ------------------------------------------------------------
+// Controla las interacciones y cálculos del módulo Figuras 2D:
+// - Navegación entre figuras
+// - Cálculo de área y perímetro (Círculo, Cuadrado, Triángulo)
+// - Registro de historial local y en API
+// ============================================================
+
 document.addEventListener('DOMContentLoaded', () => {
 
     // ============================
-    // 🔹 Usuario actual
+    // 👤 Usuario Actual
+    // ----------------------------
+    // Recupera los datos del usuario logeado.
     // ============================
     const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual'));
 
     // ============================
-    // 🔹 Función para mostrar mensajes
+    // 💬 Mostrar Mensajes
+    // ----------------------------
+    // Muestra mensajes informativos o de error en pantalla.
     // ============================
     function mostrarMensaje(texto, tipo = "info") {
         const mensajeDiv = document.getElementById('mensaje');
         if (!mensajeDiv) return;
         mensajeDiv.textContent = texto;
-        mensajeDiv.classList.remove('error');
-        if (tipo === "error") mensajeDiv.classList.add('error');
+        mensajeDiv.classList.toggle('error', tipo === "error");
     }
 
     // ============================
-    // 🔹 Guardar historial en API
-    // ============================
-    async function enviarHistorialAPI(seccion, calculo) {
-        if (!usuarioActual) return;
-
-        const fechaHora = new Date().toLocaleString();
-        const nuevaEntrada = { seccion, calculo, fechaHora };
-
-        // Guardar en localStorage
-        usuarioActual.historial = usuarioActual.historial || [];
-        usuarioActual.historial.push(nuevaEntrada);
-        localStorage.setItem('usuarioActual', JSON.stringify(usuarioActual));
-
-        try {
-            await fetch(`http://127.0.0.1:5000/perfiles/${usuarioActual.id}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ historial: usuarioActual.historial })
-            });
-        } catch (err) {
-            console.error('Error al actualizar historial en API:', err);
-        }
-    }
-
-    // ============================
-    // 🔹 Navegación desde tarjetas
+    // 🧭 Navegación desde Tarjetas
+    // ----------------------------
+    // Permite navegar al hacer clic en las tarjetas del menú.
+    // Guarda el historial si hay usuario logeado.
     // ============================
     const tarjetas = document.querySelectorAll('.tarjeta');
     tarjetas.forEach(tarjeta => {
@@ -51,9 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const href = tarjeta.dataset.href;
 
             if (usuarioActual && calculo) {
-                // Guardar historial global y API
-                guardarHistorialGlobal("Figuras 3D", calculo);
-                enviarHistorialAPI("Figuras 3D", calculo);
+                guardarHistorialGlobal("Figuras 2D", calculo);
+                enviarHistorialAPI(calculo);
             }
 
             if (href) window.location.href = href;
@@ -61,20 +50,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // ============================
-    // 🔹 Referencia al div de resultados
+    // 🧾 Referencias Comunes
+    // ----------------------------
+    // Contenedor de resultados para mostrar cálculos.
     // ============================
     const resultadoDiv = document.getElementById('resultado');
 
-    // ============================
-    // 🔹 Funciones de cálculo 2D
-    // ============================
+    // ============================================================
+    // 🔹 FUNCIONES DE CÁLCULO
+    // ============================================================
 
     // ---- Círculo ----
     function calcularAreaCirculo() {
-        const radio = document.getElementById('radio').value.trim();
+        const radio = document.getElementById('radio')?.value.trim();
         if (!validarNumero(radio)) {
-            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el radio.', 'error');
-            return;
+            return mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el radio.', 'error');
         }
 
         const r = parseFloat(radio);
@@ -84,21 +74,20 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Área del Círculo</h3>
             <p>Fórmula: A = π × r²</p>
             <ul>
-                <li>Radio ingresado: ${r}</li>
+                <li>Radio: ${r}</li>
                 <li>Área = ${area.toFixed(2)}</li>
             </ul>
         `;
 
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Área Círculo");
-        enviarHistorialAPI("Figuras 2D", "Área Círculo");
+        enviarHistorialAPI("Área Círculo");
     }
 
     function calcularPerimetroCirculo() {
-        const radio = document.getElementById('radio').value.trim();
+        const radio = document.getElementById('radio')?.value.trim();
         if (!validarNumero(radio)) {
-            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el radio.', 'error');
-            return;
+            return mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el radio.', 'error');
         }
 
         const r = parseFloat(radio);
@@ -108,22 +97,21 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Perímetro del Círculo</h3>
             <p>Fórmula: P = 2 × π × r</p>
             <ul>
-                <li>Radio ingresado: ${r}</li>
+                <li>Radio: ${r}</li>
                 <li>Perímetro = ${perimetro.toFixed(2)}</li>
             </ul>
         `;
 
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Perímetro Círculo");
-        enviarHistorialAPI("Figuras 2D", "Perímetro Círculo");
+        enviarHistorialAPI("Perímetro Círculo");
     }
 
     // ---- Cuadrado ----
     function calcularAreaCuadrado() {
-        const lado = document.getElementById('lado').value.trim();
+        const lado = document.getElementById('lado')?.value.trim();
         if (!validarNumero(lado)) {
-            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el lado.', 'error');
-            return;
+            return mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el lado.', 'error');
         }
 
         const l = parseFloat(lado);
@@ -133,21 +121,20 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Área del Cuadrado</h3>
             <p>Fórmula: A = lado²</p>
             <ul>
-                <li>Lado ingresado: ${l}</li>
+                <li>Lado: ${l}</li>
                 <li>Área = ${area}</li>
             </ul>
         `;
 
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Área Cuadrado");
-        enviarHistorialAPI("Figuras 2D", "Área Cuadrado");
+        enviarHistorialAPI("Área Cuadrado");
     }
 
     function calcularPerimetroCuadrado() {
-        const lado = document.getElementById('lado').value.trim();
+        const lado = document.getElementById('lado')?.value.trim();
         if (!validarNumero(lado)) {
-            mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el lado.', 'error');
-            return;
+            return mostrarMensaje('⚠️ Ingresa un número válido y mayor que 0 para el lado.', 'error');
         }
 
         const l = parseFloat(lado);
@@ -157,23 +144,22 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Perímetro del Cuadrado</h3>
             <p>Fórmula: P = 4 × lado</p>
             <ul>
-                <li>Lado ingresado: ${l}</li>
+                <li>Lado: ${l}</li>
                 <li>Perímetro = ${perimetro}</li>
             </ul>
         `;
 
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Perímetro Cuadrado");
-        enviarHistorialAPI("Figuras 2D", "Perímetro Cuadrado");
+        enviarHistorialAPI("Perímetro Cuadrado");
     }
 
     // ---- Triángulo ----
     function calcularAreaTriangulo() {
-        const base = document.getElementById('base').value.trim();
-        const altura = document.getElementById('altura').value.trim();
+        const base = document.getElementById('base')?.value.trim();
+        const altura = document.getElementById('altura')?.value.trim();
         if (!validarNumero(base) || !validarNumero(altura)) {
-            mostrarMensaje('⚠️ Ingresa valores válidos y mayores que 0 para base y altura.', 'error');
-            return;
+            return mostrarMensaje('⚠️ Ingresa valores válidos y mayores que 0 para base y altura.', 'error');
         }
 
         const b = parseFloat(base);
@@ -184,24 +170,23 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Área del Triángulo</h3>
             <p>Fórmula: A = (base × altura) / 2</p>
             <ul>
-                <li>Base ingresada: ${b}</li>
-                <li>Altura ingresada: ${h}</li>
+                <li>Base: ${b}</li>
+                <li>Altura: ${h}</li>
                 <li>Área = ${area}</li>
             </ul>
         `;
 
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Área Triángulo");
-        enviarHistorialAPI("Figuras 2D", "Área Triángulo");
+        enviarHistorialAPI("Área Triángulo");
     }
 
     function calcularPerimetroTriangulo() {
-        const base = document.getElementById('base').value.trim();
-        const lado1 = document.getElementById('lado1').value.trim();
-        const lado2 = document.getElementById('lado2').value.trim();
+        const base = document.getElementById('base')?.value.trim();
+        const lado1 = document.getElementById('lado1')?.value.trim();
+        const lado2 = document.getElementById('lado2')?.value.trim();
         if (!validarNumero(base) || !validarNumero(lado1) || !validarNumero(lado2)) {
-            mostrarMensaje('⚠️ Ingresa valores válidos y mayores que 0 para todos los lados.', 'error');
-            return;
+            return mostrarMensaje('⚠️ Ingresa valores válidos y mayores que 0 para todos los lados.', 'error');
         }
 
         const b = parseFloat(base);
@@ -213,36 +198,33 @@ document.addEventListener('DOMContentLoaded', () => {
             <h3>Perímetro del Triángulo</h3>
             <p>Fórmula: P = base + lado1 + lado2</p>
             <ul>
-                <li>Lados ingresados: ${b}, ${l1}, ${l2}</li>
+                <li>Lados: ${b}, ${l1}, ${l2}</li>
                 <li>Perímetro = ${perimetro}</li>
             </ul>
         `;
 
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Perímetro Triángulo");
-        enviarHistorialAPI("Figuras 2D", "Perímetro Triángulo");
+        enviarHistorialAPI("Perímetro Triángulo");
     }
 
     // ============================
-    // 🔹 Botones de cálculo
+    // 🧮 Botones de Cálculo
+    // ----------------------------
+    // Detecta la figura activa y ejecuta la función correspondiente.
     // ============================
     const calcularAreaBtn = document.getElementById('calcularArea');
     const calcularPerimetroBtn = document.getElementById('calcularPerimetro');
 
-    if (calcularAreaBtn) {
-        calcularAreaBtn.addEventListener('click', () => {
-            if (document.getElementById('radio')) calcularAreaCirculo();
-            else if (document.getElementById('lado')) calcularAreaCuadrado();
-            else if (document.getElementById('base')) calcularAreaTriangulo();
-        });
-    }
+    calcularAreaBtn?.addEventListener('click', () => {
+        if (document.getElementById('radio')) calcularAreaCirculo();
+        else if (document.getElementById('lado')) calcularAreaCuadrado();
+        else if (document.getElementById('base')) calcularAreaTriangulo();
+    });
 
-    if (calcularPerimetroBtn) {
-        calcularPerimetroBtn.addEventListener('click', () => {
-            if (document.getElementById('radio')) calcularPerimetroCirculo();
-            else if (document.getElementById('lado')) calcularPerimetroCuadrado();
-            else if (document.getElementById('base')) calcularPerimetroTriangulo();
-        });
-    }
-
+    calcularPerimetroBtn?.addEventListener('click', () => {
+        if (document.getElementById('radio')) calcularPerimetroCirculo();
+        else if (document.getElementById('lado')) calcularPerimetroCuadrado();
+        else if (document.getElementById('base')) calcularPerimetroTriangulo();
+    });
 });
