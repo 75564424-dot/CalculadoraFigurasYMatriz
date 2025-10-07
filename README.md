@@ -5,9 +5,9 @@
 👥 Integrantes
 
     - Brayan Estif Guillén Sanabria
-    -
-    -
-    -
+    - Huamán Collazos, Leonid Kisley 
+    - Macavilca Torre, José David
+    - Yupanqui Anticona, Esteban
 
 🆕 Nueva Funcionalidad
 
@@ -407,7 +407,3 @@
     └───matrices
             matrices.html         → Interfaz para operaciones con matrices
             matrices.js           → Lógica de cálculo de matrices
-
-
-
-
