@@ -12,11 +12,17 @@
         <h1>Área y Perímetro del Cuadrado</h1>
 
         <!-- Imagen del cuadrado -->
-        <img src="../imagenes/Cuadrado.png" alt="Cuadrado" style="width:150px;margin-bottom:1rem;">
+        <div class="cuadrado-container" style="position: relative; display: inline-block;">
+            <img src="../imagenes/Cuadrado.jpeg" alt="Cuadrado" style="width:150px; display:block;">
+            <div id="valorLadoMostrado" 
+                style="position:absolute; top:70%; left:50%; transform:translate(-50%, -50%);
+                       font-size:16px; font-weight:bold; color:red;">
+            </div>
+        </div>
 
         <!-- Formulario de ingreso -->
         <form id="cuadradoForm">
-            <label for="lado">Lado (l):</label>
+            <label for="lado">Lado:</label>
             <input type="text" id="lado" placeholder="Ingresa el lado" required>
             
             <div class="acciones">

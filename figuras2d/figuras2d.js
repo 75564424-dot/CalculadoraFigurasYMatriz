@@ -107,6 +107,17 @@ document.addEventListener('DOMContentLoaded', () => {
         enviarHistorialAPI("Perímetro Círculo");
     }
 
+    const inputRadio = document.getElementById('radio');
+    const valorMostrado = document.getElementById('valorMostrado');
+
+    if (inputRadio && valorMostrado) {
+        inputRadio.addEventListener('input', () => {
+            const valor = inputRadio.value.trim();
+            valorMostrado.textContent = valor ? `r: ${valor}` : '';
+        });
+    }
+
+
     // ---- Cuadrado ----
     function calcularAreaCuadrado() {
         const lado = document.getElementById('lado')?.value.trim();
@@ -153,6 +164,17 @@ document.addEventListener('DOMContentLoaded', () => {
         guardarHistorialGlobal("Figuras 2D", "Perímetro Cuadrado");
         enviarHistorialAPI("Perímetro Cuadrado");
     }
+
+    // ---- Mostrar L: valor en el centro del cuadrado ----
+    const inputLado = document.getElementById('lado');
+const valorLadoMostrado = document.getElementById('valorLadoMostrado');
+
+if (inputLado && valorLadoMostrado) {
+    inputLado.addEventListener('input', () => {
+        const valor = inputLado.value.trim();
+        valorLadoMostrado.textContent = valor ? `L: ${valor}` : '';
+    });
+}
 
     // ---- Triángulo ----
     function calcularAreaTriangulo() {
@@ -206,6 +228,28 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarMensaje('✅ Cálculo realizado correctamente.');
         guardarHistorialGlobal("Figuras 2D", "Perímetro Triángulo");
         enviarHistorialAPI("Perímetro Triángulo");
+    }
+
+    // ---- Mostrar Base (b) y Altura (h) en el centro del triángulo ----
+    const inputBase = document.getElementById('base');
+    const inputAltura = document.getElementById('altura');
+    const valorBaseMostrada = document.getElementById('valorBaseMostrada');
+    const valorAlturaMostrada = document.getElementById('valorAlturaMostrada');
+
+    // Mostrar base en tiempo real
+    if (inputBase && valorBaseMostrada) {
+        inputBase.addEventListener('input', () => {
+            const valor = inputBase.value.trim();
+            valorBaseMostrada.textContent = valor ? `b: ${valor}` : '';
+        });
+    }
+
+    // Mostrar altura en tiempo real
+    if (inputAltura && valorAlturaMostrada) {
+        inputAltura.addEventListener('input', () => {
+            const valor = inputAltura.value.trim();
+            valorAlturaMostrada.textContent = valor ? `h: ${valor}` : '';
+        });
     }
 
     // ============================

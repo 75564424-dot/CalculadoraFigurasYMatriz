@@ -12,13 +12,19 @@
         <h1>Área y Perímetro del Círculo</h1>
 
         <!-- Imagen del círculo -->
-        <img src="../imagenes/Circulo.png" alt="Círculo" style="width:150px;margin-bottom:1rem;">
+        <div class="circulo-container" style="position: relative; display: inline-block;">
+            <img src="../imagenes/Circulo.jpeg" alt="Círculo" style="width:150px; display:block;">
+            <div id="valorMostrado" 
+                style="position:absolute; top:45%; left:50%; transform:translate(-50%, -50%);
+                    font-size:16px; font-weight:bold; color:red;">
+            </div>
+        </div>
 
         <!-- Formulario de ingreso -->
         <form id="circuloForm">
             <label for="radio">Radio (r):</label>
             <input type="text" id="radio" placeholder="Ingresa el radio" required>
-            
+
             <div class="acciones">
                 <button type="button" id="calcularArea">Calcular Área</button>
                 <button type="button" id="calcularPerimetro">Calcular Perímetro</button>
@@ -36,5 +42,6 @@
 
     <script src="../script.js"></script>
     <script src="../figuras2d/figuras2d.js"></script>
+
 </body>
 </html>

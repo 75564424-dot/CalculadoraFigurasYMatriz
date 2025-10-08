@@ -12,23 +12,45 @@
         <h1>Área y Perímetro del Triángulo</h1>
 
         <!-- Imagen del triángulo -->
-        <img src="../imagenes/Triangulo.png" alt="Triángulo" style="width:150px;margin-bottom:1rem;">
-
-        <!-- Formulario de ingreso -->
-        <form id="trianguloForm">
-            <label for="base">Base (b):</label>
-            <input type="text" id="base" placeholder="Ingresa la base" required>
-
-            <label for="altura">Altura (h):</label>
-            <input type="text" id="altura" placeholder="Ingresa la altura" required>
-
-            <label for="lado1">Lado 1:</label>
-            <input type="text" id="lado1" placeholder="Ingresa lado 1" required>
-
-            <label for="lado2">Lado 2:</label>
-            <input type="text" id="lado2" placeholder="Ingresa lado 2" required>
+        <div class="triangulo-container" style="position: relative; display: inline-block;">
+            <img src="../imagenes/Triangulo.png" alt="Triángulo" style="width:150px; display:block; margin:auto;">
             
-            <div class="acciones">
+            <!-- Texto de Base -->
+            <div id="valorBaseMostrada" 
+                style="position:absolute; top:75%; left:50%; transform:translate(-50%, -50%);
+                    font-size:18px; font-weight:bold; color:blue;">
+            </div>
+
+            <!-- Texto de Altura -->
+            <div id="valorAlturaMostrada" 
+                style="position:absolute; top:40%; left:50%; transform:translate(-50%, -50%);
+                    font-size:18px; font-weight:bold; color:red;">
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <form id="trianguloForm" style="margin-top: 1rem;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <label for="base" style="width:80px;">Base (b):</label>
+                <input type="text" id="base" placeholder="Ingresa la base" required style="flex:1;">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <label for="altura" style="width:80px;">Altura (h):</label>
+                <input type="text" id="altura" placeholder="Ingresa la altura" required style="flex:1;">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <label for="lado1" style="width:80px;">Lado 1:</label>
+                <input type="text" id="lado1" placeholder="Ingresa lado 1" required style="flex:1;">
+            </div>
+
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                <label for="lado2" style="width:80px;">Lado 2:</label>
+                <input type="text" id="lado2" placeholder="Ingresa lado 2" required style="flex:1;">
+            </div>
+            
+            <div class="acciones" style="margin-top: 1rem;">
                 <button type="button" id="calcularArea">Calcular Área</button>
                 <button type="button" id="calcularPerimetro">Calcular Perímetro</button>
                 <button type="button" id="volverFiguras2d">Volver</button>
