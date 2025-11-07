@@ -4,30 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cubo - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="light-mode">
-
     <div class="contenedor">
-        <h1>Volumen y Área Superficial del Cubo</h1>
+        <div class="pantalla activa">
+            <button class="boton boton-regresar" onclick="window.location.href='figuras3d.html'">
+                <i class="fas fa-arrow-left"></i> Volver
+            </button>
 
-        <!-- Imagen del cubo -->
-        <img src="../imagenes/Cubo.png" alt="Cubo" style="width:150px;margin-bottom:1rem;">
-
-        <!-- Formulario de ingreso -->
-        <form id="cuboForm">
-            <label for="lado">Lado (a):</label>
-            <input type="text" id="lado" placeholder="Ingresa el valor del lado">
-            
-            <div class="acciones">
-                <button type="button" id="calcularVolumen">Calcular Volumen</button>
-                <button type="button" id="calcularArea">Calcular Área Superficial</button>
-                <button type="button" id="volverBtn">Volver</button>
+            <div id="visual-cubo" style="position: relative; text-align:center; margin-top:20px; width:200px; height:200px; margin:auto;">
+                <img src="../imagenes/cubo.png" alt="Cubo con arista marcada" width="200" height="200">
+                <div id="valor-arista" style="position:absolute; top:121px; left:15px; font-size:16px; color:red;">
+                    a =
+                </div>
             </div>
-        </form>
 
-        <!-- Área de resultados -->
-        <div id="resultado" style="margin-top:1.5rem;text-align:left;"></div>
+            <h2>🧊 Cubo</h2>
+
+            <div class="grupo-entrada">
+                <label><i class="fas fa-ruler"></i> Arista:</label>
+                <input
+                    id="entrada-arista-cubo"
+                    placeholder="Ingrese la arista"
+                    oninput="actualizarVisualCubo()"
+                >
+            </div>
+
+            <div class="grupo-botones">
+                <button class="boton boton-primario" onclick="calcularCubo('area')">
+                    <i class="fas fa-calculator"></i> Calcular Área Superficial
+                </button>
+                <button class="boton boton-primario" onclick="calcularCubo('volumen')">
+                    <i class="fas fa-ruler-combined"></i> Calcular Volumen
+                </button>
+                <button class="boton boton-secundario" onclick="mostrarPasosCubo()">
+                    <i class="fas fa-search"></i> Ver Pasos de resolución
+                </button>
+                <button class="boton boton-peligro" onclick="limpiarCubo()">
+                    <i class="fas fa-trash"></i> Limpiar
+                </button>
+            </div>
+
+            <div id="resultado-cubo" class="resultado">
+                <i class="fas fa-info-circle"></i> Los resultados aparecerán aquí
+            </div>
+
+            <div id="pasos-cubo" class="pasos-resolucion" style="display:none;"></div>
+        </div>
     </div>
 
     <script src="../script.js"></script>
