@@ -4,42 +4,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Triángulo - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="light-mode">
-
     <div class="contenedor">
-        <h1>Área y Perímetro del Triángulo</h1>
+        <div class="pantalla activa">
+            <button class="boton boton-regresar" onclick="window.location.href='figuras2d.html'">
+                <i class="fas fa-arrow-left"></i> Volver
+            </button>
 
-        <!-- Imagen del triángulo -->
-        <img src="../imagenes/Triangulo.png" alt="Triángulo" style="width:150px;margin-bottom:1rem;">
+            <!-- contenedor de la imagen (200x200) -->
+            <div id="contenedor-triangulo" 
+                style="position: relative; text-align:center; margin-top:20px; width:200px; height:200px; margin:auto;">
+        
+                <img src="../imagenes/triangulo.png" 
+                    alt="Triángulo con base y altura" 
+                    width="200" height="200">
 
-        <!-- Formulario de ingreso -->
-        <form id="trianguloForm">
-            <label for="base">Base (b):</label>
-            <input type="text" id="base" placeholder="Ingresa la base" required>
+                <!-- altura centrada -->
+                <div id="valor-altura" 
+                    style="position:absolute; top:50%; left:48%; transform:translate(-50%, -50%); font-size:14px; color:red;">
+                    h =
+                </div>
 
-            <label for="altura">Altura (h):</label>
-            <input type="text" id="altura" placeholder="Ingresa la altura" required>
-
-            <label for="lado1">Lado 1:</label>
-            <input type="text" id="lado1" placeholder="Ingresa lado 1" required>
-
-            <label for="lado2">Lado 2:</label>
-            <input type="text" id="lado2" placeholder="Ingresa lado 2" required>
-            
-            <div class="acciones">
-                <button type="button" id="calcularArea">Calcular Área</button>
-                <button type="button" id="calcularPerimetro">Calcular Perímetro</button>
-                <button type="button" id="volverBtn">Volver</button>
+                <!-- base en la parte inferior -->
+                <div id="valor-base" 
+                    style="position:absolute; bottom:30px; left:48%; transform:translateX(-50%); font-size:14px; color:black;">
+                    b =
+                </div>
             </div>
-        </form>
 
-        <!-- Área de resultados -->
-        <div id="resultado" style="margin-top:1.5rem;text-align:left;"></div>
+            <h2>🔺 Triángulo</h2>
+
+            <div class="grupo-entrada">
+                <label><i class="fas fa-ruler"></i> Base (para área):</label>
+                <input
+                    id="entrada-base-triangulo"
+                    placeholder="Ingrese la base"
+                    min="0"
+                    step="0.01"
+                    oninput="actualizarVisualTriangulo()"
+                >
+            </div>
+
+            <div class="grupo-entrada">
+                <label><i class="fas fa-ruler"></i> Altura (para área):</label>
+                <input
+                    id="entrada-altura-triangulo"
+                    placeholder="Ingrese la altura"
+                    oninput="actualizarVisualTriangulo()"
+                >
+            </div>
+
+            <div class="grupo-entrada">
+                <label><i class="fas fa-ruler"></i> Lados (para perímetro):</label>
+                <input
+                    id="entrada-lado1-triangulo"
+                    placeholder="Lado 1"
+                >
+                <input
+                    id="entrada-lado2-triangulo"
+                    placeholder="Lado 2"
+                >
+                <input
+                    id="entrada-lado3-triangulo"
+                    placeholder="Lado 3"
+                >
+            </div>
+
+            <div class="grupo-botones">
+                <button class="boton boton-primario" onclick="calcularTriangulo2D('area')">
+                    <i class="fas fa-calculator"></i> Calcular Área
+                </button>
+                <button class="boton boton-primario" onclick="calcularTriangulo2D('perimetro')">
+                    <i class="fas fa-ruler-combined"></i> Calcular Perímetro
+                </button>
+                <button class="boton boton-secundario" onclick="mostrarPasosTriangulo()">
+                    <i class="fas fa-search"></i> Ver Pasos de resolución
+                </button>
+                <button class="boton boton-peligro" onclick="limpiarTriangulo()">
+                    <i class="fas fa-trash"></i> Limpiar
+                </button>
+            </div>
+
+            <div id="resultado-triangulo-2d" class="resultado">
+                <i class="fas fa-info-circle"></i> Los resultados aparecerán aquí
+            </div>
+
+            <div id="pasos-triangulo" class="pasos-resolucion" style="display:none;"></div>
+        </div>
     </div>
 
     <script src="../script.js"></script>
-    <script src="../figuras2d/figuras2d.js"></script>
+    <script src="../figuras2d/triangulo.js"></script>
 </body>
 </html>

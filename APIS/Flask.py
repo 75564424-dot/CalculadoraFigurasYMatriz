@@ -1,90 +1,34 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify
 from flask_cors import CORS
+from BD import init_db
+from servicios import registrar_usuario, login_usuario, guardar_historial, obtener_historial
 
 app = Flask(__name__)
-CORS(app)  # Permite peticiones desde frontend local
+CORS(app)
 
-# =========================================
-# Almacenamiento temporal en memoria con usuarios iniciales
-# =========================================
-perfiles = {
-    "admin": {
-        "nombre": "admin",
-        "email": "admin@gmail.com",
-        "password": "123",  # ⚠️ En producción, siempre usar hash
-        "historial": []
-    },
-    "brayan": {
-        "nombre": "brayan",
-        "email": "75564424@continental.edu.pe",
-        "password": "1234",
-        "historial": []
-    }
-}
+# Configuración de la base de datos
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/calculadora_geometrica'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# =========================
-# Crear perfil
-# POST /perfiles
-# =========================
-@app.route('/perfiles', methods=['POST'])
-def crear_perfil():
-    data = request.json
-    usuario_id = data.get('usuario')
-    if usuario_id in perfiles:
-        return jsonify({'msg': 'Usuario ya existe', 'usuario': usuario_id}), 400
-    perfiles[usuario_id] = {
-        'nombre': data.get('nombre'),
-        'email': data.get('email'),
-        'password': data.get('password'),
-        'historial': []
-    }
-    return jsonify({'msg': 'Perfil creado', 'usuario': usuario_id})
+# Inicializar base de datos
+init_db(app)
 
-# =========================
-# Obtener todos los perfiles
-# GET /perfiles
-# =========================
-@app.route('/perfiles', methods=['GET'])
-def obtener_perfiles():
-    return jsonify(perfiles)
+# Rutas de la API
+@app.route('/api/registro', methods=['POST'])
+def registro():
+    return registrar_usuario()
 
-# =========================
-# Obtener perfil específico
-# GET /perfiles/<usuario_id>
-# =========================
-@app.route('/perfiles/<usuario_id>', methods=['GET'])
-def obtener_perfil(usuario_id):
-    perfil = perfiles.get(usuario_id)
-    if perfil:
-        return jsonify(perfil)
-    return jsonify({'msg': 'Usuario no encontrado'}), 404
+@app.route('/api/login', methods=['POST'])
+def login():
+    return login_usuario()
 
-# =========================
-# Actualizar perfil (historial u otros datos)
-# PUT /perfiles/<usuario_id>
-# =========================
-@app.route('/perfiles/<usuario_id>', methods=['PUT'])
-def actualizar_perfil(usuario_id):
-    data = request.json
-    perfil = perfiles.get(usuario_id)
-    if perfil:
-        # ⚡ Solo actualizamos los campos que lleguen en el JSON
-        for key in ['nombre', 'email', 'password', 'historial']:
-            if key in data:
-                perfil[key] = data[key]
-        return jsonify({'msg': 'Perfil actualizado', 'usuario': usuario_id})
-    return jsonify({'msg': 'Usuario no encontrado'}), 404
+@app.route('/api/historial', methods=['POST'])
+def historial():
+    return guardar_historial()
 
-# =========================
-# Eliminar perfil
-# DELETE /perfiles/<usuario_id>
-# =========================
-@app.route('/perfiles/<usuario_id>', methods=['DELETE'])
-def eliminar_perfil(usuario_id):
-    if usuario_id in perfiles:
-        del perfiles[usuario_id]
-        return jsonify({'msg':'Perfil eliminado'})
-    return jsonify({'msg':'Usuario no encontrado'}), 404
+@app.route('/api/historial/<email>', methods=['GET'])
+def historial_usuario(email):
+    return obtener_historial(email)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5000)
