@@ -4,31 +4,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Figuras 2D - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="light-mode">
     <div class="contenedor">
-        <h1>Figuras 2D: Área y Perímetro</h1>
 
-        <div class="acciones">
-            <button id="volverBtn">Volver</button>
-            <button id="historialBtn">Ver Historial</button>
-        </div>
+        <a href="../index.html" class="boton boton-regresar">
+            <i class="fas fa-arrow-left"></i> Volver
+        </a>
+    
+        <h2><i class="fas fa-shapes"></i> Figuras 2D</h2> 
 
-        <div class="tarjetas">
-            <div class="tarjeta" data-calculo="Círculo" data-href="circulo.html">
-                Área y Perímetro de Círculo
+        <div class="tarjetas-opciones">
+            <div class="tarjeta-opcion" onclick="window.location.href='circulo.html'">
+                <i class="fas fa-circle"></i>
+                <h3>Círculo</h3>
+                <p>Área y perímetro</p>
             </div>
-            <div class="tarjeta" data-calculo="Cuadrado" data-href="cuadrado.html">
-                Área y Perímetro de Cuadrado
+                
+            <div class="tarjeta-opcion" onclick="window.location.href='cuadrado.html'">
+                <i class="fas fa-square"></i>
+                <h3>Cuadrado</h3>
+                <p>Área y perímetro</p>
             </div>
-            <div class="tarjeta" data-calculo="Triángulo" data-href="triangulo.html">
-                Área y Perímetro de Triángulo
+                
+            <div class="tarjeta-opcion" onclick="window.location.href='triangulo.html'">
+                <i class="fas fa-play"></i>
+                <h3>Triángulo</h3>
+                <p>Área y perímetro</p>
             </div>
         </div>
     </div>
 
     <script src="../script.js"></script>
-    <script src="figuras2d.js"></script>
 </body>
 </html>

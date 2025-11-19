@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - CRUD</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body class="light-mode">
+    <div class="contenedor">
+        <!-- Encabezado con botón de volver -->
+        <div class="encabezado-usuario">
+            <button class="boton boton-regresar" onclick="window.location.href='../index.html'">
+                <i class="fas fa-arrow-left"></i> Volver al Menú
+            </button>
+        </div>
+
+        <h1><i class="fas fa-cogs"></i> Panel de Administración</h1>
+        
+        <!-- Tarjetas del CRUD -->
+        <div class="tarjetas-crud">
+
+            <!-- Crear Usuario -->
+            <a href="crear-usuario.html" class="tarjeta-crud">
+                <div class="icono-tarjeta">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h2>Crear Usuario</h2>
+                <p>Registra un nuevo usuario en el sistema con sus preferencias y permisos.</p>
+            </a>
+
+            <!-- Leer Usuario -->
+            <a href="leer-usuario.html" class="tarjeta-crud">
+                <div class="icono-tarjeta">
+                    <i class="fas fa-search"></i>
+                </div>
+                <h2>Leer Usuario</h2>
+                <p>Consulta la información de los usuarios registrados en el sistema.</p>
+            </a>
+
+            <!-- Actualizar Usuario -->
+            <a href="actualizar-usuario.html" class="tarjeta-crud">
+                <div class="icono-tarjeta">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <h2>Actualizar Usuario</h2>
+                <p>Edita los datos, permisos o preferencias de un usuario existente.</p>
+            </a>
+
+            <!-- Eliminar Usuario -->
+            <a href="eliminar-usuario.html" class="tarjeta-crud">
+                <div class="icono-tarjeta">
+                    <i class="fas fa-user-times"></i>
+                </div>
+                <h2>Eliminar Usuario</h2>
+                <p>Elimina un usuario del sistema de manera permanente.</p>
+            </a>
+
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+</body>
+</html>

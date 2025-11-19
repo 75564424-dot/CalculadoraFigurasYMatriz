@@ -4,22 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Calculadora Geométrica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="../styles.css">
 </head>
 <body class="light-mode">
-    <div class="contenedor">
-        <h1>Registro de Usuario</h1>
 
-        <form id="registroForm">
-            <input type="text" id="nombre" placeholder="Nombre" required>
-            <input type="email" id="email" placeholder="Correo Electrónico" required>
-            <input type="password" id="password" placeholder="Contraseña" required>
-            <div class="acciones">
-                <button type="submit">Registrar</button>
-                <button type="button" id="volverBtn">Volver</button>
+    <div class="contenedor">
+    
+    <a href="../index.html" class="boton boton-regresar">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+
+    <h2><i class="fas fa-user-plus"></i> Crear Cuenta</h2>
+    
+    <form id="registroForm" onsubmit="procesarRegistro(); return false;">
+        <div class="grupo-entrada">
+            <label><i class="fas fa-user"></i> Nombre Completo:</label>
+            <input type="text" id="registro-nombre" placeholder="Tu nombre completo" required>
+        </div>
+        
+        <div class="grupo-entrada">
+            <label><i class="fas fa-envelope"></i> Correo Electrónico:</label>
+            <input type="email" id="registro-email" placeholder="usuario@ejemplo.com" required>
+        </div>
+        
+        <div class="grupo-entrada">
+            <label><i class="fas fa-lock"></i> Contraseña:</label>
+            <input type="password" id="registro-password" placeholder="Mínimo 6 caracteres" required>
+        </div>
+        
+        <div class="grupo-entrada">
+            <label><i class="fas fa-lock"></i> Confirmar Contraseña:</label>
+            <input type="password" id="registro-confirmar-password" placeholder="Repite tu contraseña" required>
+        </div>
+        
+        <div class="grupo-entrada">
+            <label><i class="fas fa-palette"></i> Preferencia de Tema:</label>
+            <div class="opciones-tema">
+                <label class="opcion-tema">
+                    <input type="radio" name="tema-preferencia" value="claro" checked>
+                    <div class="tema-preview claro">
+                        <i class="fas fa-sun"></i>
+                        <span>Modo Claro</span>
+                    </div>
+                </label>
+                
+                <label class="opcion-tema">
+                    <input type="radio" name="tema-preferencia" value="oscuro">
+                    <div class="tema-preview oscuro">
+                        <i class="fas fa-moon"></i>
+                        <span>Modo Oscuro</span>
+                    </div>
+                </label>
             </div>
-        </form>
-    </div>
+        </div>
+    
+        <button class="boton boton-primario boton-grande" type="submit">
+            <i class="fas fa-user-plus"></i> Crear Cuenta
+        </button>
+        
+        <div class="enlace-alternativo">
+            ¿Ya tienes cuenta? <a href="login.html">Inicia sesión aquí</a>
+        </div>
+    </form>
 
     <script src="../script.js"></script>
 </body>

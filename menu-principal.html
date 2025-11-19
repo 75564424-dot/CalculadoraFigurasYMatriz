@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Geométrica</title>
+    <style>
+        /* 🔥 Usar las mismas variables que tu proyecto */
+        :root {
+            --primary: #6c5ce7;
+            --primary-dark: #5649c0;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #e17055;
+            --light: #f7f7f7;
+            --dark: #2d3436;
+            --gray: #636e72;
+            --light-gray: #dfe6e9;
+            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            --radius: 12px;
+            --transition: all 0.3s ease;
+            
+            /* Gradientes de tu proyecto */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-dark: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            --gradient-button: linear-gradient(45deg, var(--primary), var(--primary-dark));
+        }
+
+        body {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+            gap: 0;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            max-height: 100vh;
+            overflow: hidden;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--gradient-primary);
+            transition: var(--transition);
+        }
+
+        body.modo-oscuro {
+            background: var(--gradient-dark);
+        }
+
+        .costado-izquierdo, .costado-derecho {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            overflow-y: hidden; /* 🔥 Cambiamos a hidden para que no tengan scroll */
+            max-height: 100vh;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+        }
+
+        .costado-derecho {
+            border-right: none;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.modo-oscuro .costado-izquierdo,
+        body.modo-oscuro .costado-derecho {
+            background: rgba(45, 52, 54, 0.1);
+            color: var(--light);
+        }
+
+        .centro {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* 🔥 El contenedor centro no tiene scroll, pero el iframe sí */
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+            /* El iframe tendrá scroll interno si su contenido es más largo que su altura */
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* 🔥 Estilos para el contenido de los costados que coincidan con tu proyecto */
+        .costado-izquierdo h2, 
+        .costado-derecho h2 {
+            color: var(--light);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 600;
+        }
+
+        .costado-izquierdo p, 
+        .costado-derecho p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.8rem;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        .costado-izquierdo p:hover, 
+        .costado-derecho p:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        body.modo-oscuro .costado-izquierdo h2,
+        body.modo-oscuro .costado-derecho h2 {
+            color: var(--secondary);
+        }
+
+        body.modo-oscuro .costado-izquierdo p,
+        body.modo-oscuro .costado-derecho p {
+            color: var(--light-gray);
+        }
+
+        body.modo-oscuro .costado-izquierdo p:hover,
+        body.modo-oscuro .costado-derecho p:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+/* Estilos para el logo */
+.logo-container {
+    position: fixed;
+    bottom: 150px; /* Subido desde 20px a 150px */
+    left: 20px;
+    right: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 150px;
+    z-index: 100;
+}
+
+.logo {
+    max-width: 80%;
+    box-shadow: var(--shadow);
+}
+
+/* Estilos para la nube de mensajes */
+.nube-mensajes {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius);
+    padding: 15px;
+    margin-bottom: 120px; /* Reducido para coincidir con la nueva posición del logo */
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mensaje-item {
+    border-radius: 18px;
+    padding: 14px 16px;
+    font-size: 1.1rem;
+    color: var(--dark);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease-out;
+    border-left: 4px solid transparent;
+    line-height: 1.4;
+}
+
+.mensaje-item.error {
+    background: rgba(220, 53, 69, 0.15);
+    border-left: 4px solid var(--danger);
+    color: #721c24;
+}
+
+.mensaje-item.success {
+    background: rgba(40, 167, 69, 0.15);
+    border-left: 4px solid var(--success);
+    color: #155724;
+}
+
+.mensaje-item.info {
+    background: rgba(255, 193, 7, 0.15);
+    border-left: 4px solid #ffc107;
+    color: #856404;
+}
+
+.historial-container {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Item individual del historial */
+.item-historial {
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 0;
+    padding: 12px;
+    border-radius: 8px;
+    border-left: 4px solid var(--primary);
+}
+
+/* Fecha en los items */
+.item-historial .fecha {
+    font-size: 0.8rem;
+    color: var(--secondary);
+    margin-bottom: 4px;
+}
+
+/* Cálculo en los items */
+.item-historial .calculacion {
+    font-size: 0.9rem;
+    color: white;
+}
+
+/* Estado cuando no hay historial */
+.sin-historial {
+    text-align: center;
+    padding: 20px;
+    color: rgba(255, 255, 255, 0.7);
+    font-style: italic;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+    </style>
+</head>
+<body class="light-mode">
+    <div class="costado-izquierdo">
+         <div class="costado-contenido">
+        <h2><i class="fas fa-comments"></i> Mensajes del Sistema</h2>
+        <div id="nube-mensajes" class="nube-mensajes">
+            <!-- Los mensajes aparecerán aquí -->
+        </div>
+        <div class="logo-container">
+            <img src="imagenes/mensajes.png" alt="Logo" class="logo">
+        </div>
+
+    </div>
+    </div>
+
+    <div class="centro">
+        <!-- Quitamos scrolling="no" para permitir scroll en el iframe -->
+        <iframe src="index.html" id="mainIframe"></iframe>
+    </div>
+
+    <div class="costado-derecho" id="costado-derecho" style="display: block;">
+        <h2><i class="fas fa-history"></i> Historial de Cálculos</h2>
+        <div id="historial-usuario" class="historial-container">
+            <div class="sin-historial">Cargando historial...</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
