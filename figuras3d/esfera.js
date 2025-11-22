@@ -1,16 +1,3 @@
-// Inicialización
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Figuras 3D inicializadas');
-    
-    // Inicializar modo
-    const modo = localStorage.getItem('modo') || 'claro';
-    document.body.className = modo === 'oscuro' ? 'modo-oscuro' : 'light-mode';
-});
-
-// ======================================================
-// 🔹 ESFERA
-// ======================================================
-
 function calcularEsfera(tipoOperacion) {
     try {
         const radio = validarEntrada(
@@ -19,13 +6,34 @@ function calcularEsfera(tipoOperacion) {
         );
 
         let resultado = 0;
+        let tipoCalculo = "";
+        let datos = `Radio: ${radio}`;
+
         if (tipoOperacion === 'area') {
             resultado = 4 * Math.PI * radio * radio;
-            mostrarResultado('resultado-esfera', `Área Superficial: ${resultado.toFixed(4)} unidades²`);
+            tipoCalculo = "Área superficial de la esfera";
+
+            mostrarResultado(
+                'resultado-esfera',
+                `Área Superficial: ${resultado.toFixed(4)} unidades²`
+            );
+
         } else if (tipoOperacion === 'volumen') {
             resultado = (4 / 3) * Math.PI * radio ** 3;
-            mostrarResultado('resultado-esfera', `Volumen: ${resultado.toFixed(4)} unidades³`);
+            tipoCalculo = "Volumen de la esfera";
+
+            mostrarResultado(
+                'resultado-esfera',
+                `Volumen: ${resultado.toFixed(4)} unidades³`
+            );
         }
+
+        agregarAlHistorial(
+            tipoCalculo,
+            datos,
+            resultado.toFixed(4)
+        );
+
     } catch (error) {
         mostrarResultado('resultado-esfera', null, error.message);
     }
