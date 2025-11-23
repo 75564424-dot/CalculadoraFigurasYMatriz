@@ -1,12 +1,3 @@
-// Inicialización
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Figuras 3D inicializadas');
-    
-    // Inicializar modo
-    const modo = localStorage.getItem('modo') || 'claro';
-    document.body.className = modo === 'oscuro' ? 'modo-oscuro' : 'light-mode';
-});
-
 // ======================================================
 // 🔹 CILINDRO
 // ======================================================
@@ -23,13 +14,34 @@ function calcularCilindro(tipoOperacion) {
         );
 
         let resultado = 0;
+        let tipoCalculo = "";
+        let datos = `Radio: ${radio}, Altura: ${altura}`;
+
         if (tipoOperacion === 'area') {
             resultado = 2 * Math.PI * radio * (radio + altura);
-            mostrarResultado('resultado-cilindro', `Área Superficial: ${resultado.toFixed(4)} unidades²`);
+            tipoCalculo = "Área superficial del cilindro";
+
+            mostrarResultado(
+                'resultado-cilindro',
+                `Área Superficial: ${resultado.toFixed(4)} unidades²`
+            );
+
         } else if (tipoOperacion === 'volumen') {
             resultado = Math.PI * radio * radio * altura;
-            mostrarResultado('resultado-cilindro', `Volumen: ${resultado.toFixed(4)} unidades³`);
+            tipoCalculo = "Volumen del cilindro";
+
+            mostrarResultado(
+                'resultado-cilindro',
+                `Volumen: ${resultado.toFixed(4)} unidades³`
+            );
         }
+
+        agregarAlHistorial(
+            tipoCalculo,
+            datos,
+            resultado.toFixed(4)
+        );
+
     } catch (error) {
         mostrarResultado('resultado-cilindro', null, error.message);
     }

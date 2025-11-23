@@ -1,3 +1,6 @@
+// ======================================================
+// 🔹 ESFERA
+// ======================================================
 function calcularEsfera(tipoOperacion) {
     try {
         const radio = validarEntrada(

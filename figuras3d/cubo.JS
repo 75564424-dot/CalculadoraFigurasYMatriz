@@ -1,12 +1,3 @@
-// Inicialización
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Figuras 3D inicializadas');
-    
-    // Inicializar modo
-    const modo = localStorage.getItem('modo') || 'claro';
-    document.body.className = modo === 'oscuro' ? 'modo-oscuro' : 'light-mode';
-});
-
 // ======================================================
 // 🔹 CUBO
 // ======================================================
@@ -19,13 +10,34 @@ function calcularCubo(tipoOperacion) {
         );
 
         let resultado = 0;
+        let tipoCalculo = "";
+        let datos = `Arista: ${arista}`;
+
         if (tipoOperacion === 'area') {
             resultado = 6 * arista * arista;
-            mostrarResultado('resultado-cubo', `Área Superficial: ${resultado.toFixed(4)} unidades²`);
+            tipoCalculo = "Área superficial del cubo";
+
+            mostrarResultado(
+                'resultado-cubo', 
+                `Área Superficial: ${resultado.toFixed(4)} unidades²`
+            );
+
         } else if (tipoOperacion === 'volumen') {
             resultado = arista ** 3;
-            mostrarResultado('resultado-cubo', `Volumen: ${resultado.toFixed(4)} unidades³`);
+            tipoCalculo = "Volumen del cubo";
+
+            mostrarResultado(
+                'resultado-cubo', 
+                `Volumen: ${resultado.toFixed(4)} unidades³`
+            );
         }
+
+        agregarAlHistorial(
+            tipoCalculo,
+            datos,
+            resultado.toFixed(4)
+        );
+
     } catch (error) {
         mostrarResultado('resultado-cubo', null, error.message);
     }
