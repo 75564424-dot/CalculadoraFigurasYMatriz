@@ -8,12 +8,20 @@ function esAdministrador(usuario) {
 
 function mostrarBotonAdministracion() {
     const botonAdmin = document.getElementById('boton-admin');
+    const botonEliminar = document.getElementById('btn-eliminar-cuenta'); // Agregar esta línea
+
     if (botonAdmin) {
         if (esAdministrador(usuarioActual)) {
             botonAdmin.style.display = 'inline-block';
+            if (botonEliminar) {
+                botonEliminar.style.display = 'none'; // Ocultar eliminar cuenta para admin
+            }
             console.log('Botón admin visible para:', usuarioActual.email);
         } else {
             botonAdmin.style.display = 'none';
+            if (botonEliminar) {
+                botonEliminar.style.display = 'inline-block'; // Mostrar eliminar cuenta para no admin
+            }
         }
     }
 }
@@ -101,13 +109,10 @@ async function procesarLogin() {
             usuarioActual = data.usuario;
             localStorage.setItem('usuarioActual', JSON.stringify(data.usuario));
             
-            // APLICAR TEMA DEL USUARIO
-            const temaActual = document.body.classList.contains('modo-oscuro') ? 'oscuro' : 'claro';
-            const temaDeseado = data.usuario.tema_preferido;
-            
-            if (temaActual !== temaDeseado) {
-                aplicarTema(temaDeseado);
-            }
+            //aplicar tema preferido 
+            if (data.usuario.tema_preferido) {
+                aplicarTema(data.usuario.tema_preferido);
+             }
 
             // Mostrar mensaje de éxito
             if (typeof mostrarMensajeLogin === 'function') {
@@ -187,11 +192,8 @@ async function procesarRegistro() {
             localStorage.setItem('usuarioActual', JSON.stringify(data.usuario));
             
             // APLICAR TEMA DEL USUARIO
-            const temaActual = document.body.classList.contains('modo-oscuro') ? 'oscuro' : 'claro';
-            const temaDeseado = data.usuario.tema_preferido;
-            
-            if (temaActual !== temaDeseado) {
-                aplicarTema(temaDeseado);
+            if (data.usuario.tema_preferido) {
+                aplicarTema(data.usuario.tema_preferido);
             }
             
             mostrarMensaje('¡Registro exitoso! Redirigiendo...', 'success');

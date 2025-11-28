@@ -17,16 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         usuarioActual = JSON.parse(usuarioGuardado);
     }
     
-    // Cargar tema (prioridad: usuario logueado > tema guardado > claro)
-    let tema = 'claro';
-    if (usuarioActual && usuarioActual.tema_preferido) {
-        tema = usuarioActual.tema_preferido;
-    } else {
-        const modoGuardado = localStorage.getItem('modo');
-        if (modoGuardado) tema = modoGuardado;
-    }
-    
-    aplicarTema(tema);
+    aplicarTema();
     
     // Actualizar interfaz según estado de autenticación
     actualizarInterfazUsuario();
@@ -107,45 +98,47 @@ function agregarMensajeANube(mensaje, tipo = 'info') {
 // 🔹 FUNCIONES DE TEMA
 // ======================================================
 
-function aplicarTema(tema) {
+function aplicarTema(tema = null) {
     const body = document.body;
     const boton = document.querySelector('.boton[onclick="alternarModoOscuro()"]');
     
-    if (tema === 'oscuro') {
+    // Siempre usar el tema especificado o el de localStorage
+    let temaFinal = tema || localStorage.getItem('modo') || 'claro';
+    
+    // Aplicar el tema visualmente
+    if (temaFinal === 'oscuro') {
         body.classList.add('modo-oscuro');
         if (boton) {
             boton.innerHTML = '<i class="fas fa-sun"></i> Modo Claro';
         }
-        
-        // 🔥 Solo aplicar clase al menú principal (sin botón)
-        if (window.parent !== window && window.parent.document) {
-            window.parent.document.body.classList.add('modo-oscuro');
-        }
-        
     } else {
         body.classList.remove('modo-oscuro');
         if (boton) {
             boton.innerHTML = '<i class="fas fa-moon"></i> Modo Oscuro';
         }
-        
-        // Aplicar clase al menú principal (sin botón)
-        if (window.parent !== window && window.parent.document) {
-            window.parent.document.body.classList.remove('modo-oscuro');
-        }
     }
     
-    localStorage.setItem('modo', tema);
+    // Guardar en localStorage (NO en base de datos)
+    localStorage.setItem('modo', temaFinal);
     
-    // 🔥 Sincronizar localStorage del menú principal
-    if (window.parent !== window) {
-        window.parent.localStorage.setItem('modo', tema);
+    // Sincronizar con página padre si es necesario
+    if (window.parent !== window && window.parent.document) {
+        const parentBody = window.parent.document.body;
+        if (temaFinal === 'oscuro') {
+            parentBody.classList.add('modo-oscuro');
+        } else {
+            parentBody.classList.remove('modo-oscuro');
+        }
+        window.parent.localStorage.setItem('modo', temaFinal);
     }
 }
 
 function alternarModoOscuro() {
+    // Determinar tema actual basado en la clase visual
     const temaActual = document.body.classList.contains('modo-oscuro') ? 'oscuro' : 'claro';
     const nuevoTema = temaActual === 'oscuro' ? 'claro' : 'oscuro';
     
+    // Aplicar el nuevo tema (solo en localStorage)
     aplicarTema(nuevoTema);
     mostrarMensaje(`Modo ${nuevoTema === 'oscuro' ? 'oscuro' : 'claro'} activado`, 'success');
 }
