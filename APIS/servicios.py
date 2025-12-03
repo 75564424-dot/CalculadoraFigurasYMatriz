@@ -234,17 +234,14 @@ def cambiar_nombre_usuario():
         email = data.get('email')
         nuevo_nombre = data.get('nuevo_nombre')
 
-        # Obtener usuario por email
         user = User.query.get(email)
 
-        # Si no existe, error como los demás servicios
         if not user:
             return jsonify({
                 'success': False,
                 'error': 'Usuario no encontrado'
             }), 404
 
-        # Actualizar solo el nombre
         user.nombre = nuevo_nombre
         db.session.commit()
 
