@@ -8,12 +8,20 @@ function esAdministrador(usuario) {
 
 function mostrarBotonAdministracion() {
     const botonAdmin = document.getElementById('boton-admin');
+    const botonEliminar = document.getElementById('btn-eliminar-cuenta'); // Agregar esta línea
+
     if (botonAdmin) {
         if (esAdministrador(usuarioActual)) {
             botonAdmin.style.display = 'inline-block';
+            if (botonEliminar) {
+                botonEliminar.style.display = 'none'; // Ocultar eliminar cuenta para admin
+            }
             console.log('Botón admin visible para:', usuarioActual.email);
         } else {
             botonAdmin.style.display = 'none';
+            if (botonEliminar) {
+                botonEliminar.style.display = 'inline-block'; // Mostrar eliminar cuenta para no admin
+            }
         }
     }
 }
@@ -101,13 +109,10 @@ async function procesarLogin() {
             usuarioActual = data.usuario;
             localStorage.setItem('usuarioActual', JSON.stringify(data.usuario));
             
-            // APLICAR TEMA DEL USUARIO
-            const temaActual = document.body.classList.contains('modo-oscuro') ? 'oscuro' : 'claro';
-            const temaDeseado = data.usuario.tema_preferido;
-            
-            if (temaActual !== temaDeseado) {
-                aplicarTema(temaDeseado);
-            }
+            //aplicar tema preferido 
+            if (data.usuario.tema_preferido) {
+                aplicarTema(data.usuario.tema_preferido);
+             }
 
             // Mostrar mensaje de éxito
             if (typeof mostrarMensajeLogin === 'function') {
@@ -187,11 +192,8 @@ async function procesarRegistro() {
             localStorage.setItem('usuarioActual', JSON.stringify(data.usuario));
             
             // APLICAR TEMA DEL USUARIO
-            const temaActual = document.body.classList.contains('modo-oscuro') ? 'oscuro' : 'claro';
-            const temaDeseado = data.usuario.tema_preferido;
-            
-            if (temaActual !== temaDeseado) {
-                aplicarTema(temaDeseado);
+            if (data.usuario.tema_preferido) {
+                aplicarTema(data.usuario.tema_preferido);
             }
             
             mostrarMensaje('¡Registro exitoso! Redirigiendo...', 'success');
@@ -289,5 +291,53 @@ async function eliminarCuenta() {
     } catch (error) {
         console.error('Error de conexión:', error);
         mostrarMensaje('Error de conexión con el servidor. Asegúrate de que Flask esté ejecutándose.', 'error');
+    }
+}
+
+// ======================================================
+// 🔹 CAMBIAR NOMBRE DE USUARIO
+// ======================================================
+
+async function cambiarNombre() {
+    if (!usuarioActual) {
+        mostrarMensaje('No hay usuario logueado', 'error');
+        return;
+    }
+
+    const nuevoNombre = prompt("Ingresa tu nuevo nombre:");
+
+    if (!nuevoNombre || nuevoNombre.trim() === "") {
+        mostrarMensaje("El nombre no puede estar vacío", "error");
+        return;
+    }
+
+    try {
+        const response = await fetch("http://localhost:5000/api/cambiar-nombre", {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                email: usuarioActual.email,
+                nuevo_nombre: nuevoNombre
+            })
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            mostrarMensaje("Nombre actualizado correctamente", "success");
+
+            // Actualizar datos en memoria
+            usuarioActual.nombre = nuevoNombre;
+            localStorage.setItem("usuarioActual", JSON.stringify(usuarioActual));
+
+            // Actualizar interfaz
+            actualizarInterfazUsuario();
+        } else {
+            mostrarMensaje("Error: " + data.error, "error");
+        }
+
+    } catch (error) {
+        console.error("Error de conexión:", error);
+        mostrarMensaje("Error de conexión con el servidor", "error");
     }
 }
