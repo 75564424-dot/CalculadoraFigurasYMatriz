@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración - CRUD</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body class="light-mode">
+  <div class="contenedor">
+    <h1>⚙️ Panel de Administración (CRUD)</h1>
+
+    <div class="acciones">
+      <button id="volverBtn">Volver al Menú Principal</button>
+    </div>
+
+    <div id="mensajeAccion" class="tarjeta oculto"></div>
+
+    <!-- 🧩 Tarjetas del CRUD -->
+    <div class="tarjetas">
+      <div class="tarjeta" data-accion="crear">
+        <div class="icono-tarjeta">🆕</div>
+        <h2>Crear Usuario</h2>
+        <p>Registra un nuevo usuario en el sistema.</p>
+      </div>
+
+      <div class="tarjeta" data-accion="leer">
+        <div class="icono-tarjeta">📋</div>
+        <h2>Leer Usuarios</h2>
+        <p>Visualiza la lista completa de usuarios registrados.</p>
+      </div>
+
+      <div class="tarjeta" data-accion="actualizar">
+        <div class="icono-tarjeta">🛠️</div>
+        <h2>Actualizar Usuario</h2>
+        <p>Modifica los datos o el rol de un usuario existente.</p>
+      </div>
+
+      <div class="tarjeta" data-accion="eliminar">
+        <div class="icono-tarjeta">🗑️</div>
+        <h2>Eliminar Usuario</h2>
+        <p>Elimina usuarios del sistema de forma segura.</p>
+      </div>
+    </div>
+
+    <!-- 💬 Modal para formularios -->
+    <div id="overlayFormulario" class="overlay">
+      <div id="tarjetaFormulario" class="tarjeta-formulario"></div>
+    </div>
+  </div>
+
+  <script src="CRUD.js"></script>
+  <script src="../script.js"></script>
+</body>
+</html>

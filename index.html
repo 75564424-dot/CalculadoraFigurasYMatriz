@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Geométrica</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-mode">
+
+    <main class="contenedor">
+        <h1>Calculadora Geométrica</h1>
+
+        <!-- 🔹 Tarjeta de Bienvenida -->
+        <div id="bienvenidaTarjeta" class="tarjeta oculto">
+            <h2 id="bienvenidaMensaje"></h2>
+            <p id="bienvenidaRol"></p>
+        </div>
+
+        <div class="acciones">
+        <button id="modoBtn">🌙 Modo Oscuro</button>
+        <!-- 🔹 Botones visibles sin sesión -->
+        <a href="autenticacion/login.html" id="loginBtn" class="btn oculto">Iniciar Sesión</a>
+        <a href="autenticacion/registro.html" id="registroBtn" class="btn oculto">Registrar Usuario</a>
+
+        <!-- 🔹 Botones visibles con sesión -->
+        <button id="logoutBtn" class="oculto">Cerrar Sesión</button>
+        <button id="eliminarMiUsuarioBtn" class="oculto">Eliminar mi Usuario</button>
+        <button id="eliminarUsuariosBtn" class="oculto">Eliminar Usuarios</button>
+        </div>
+
+        <section class="tarjetas">
+            <a class="tarjeta" href="figuras2d/figuras2d.html">
+                <h2>Figuras 2D</h2>
+                <p>Área y perímetro de figuras planas.</p>
+            </a>
+
+            <a class="tarjeta" href="figuras3d/figuras3d.html">
+                <h2>Figuras 3D</h2>
+                <p>Volumen y área superficial de sólidos.</p>
+            </a>
+
+            <a class="tarjeta" href="matrices/matrices.html">
+                <h2>Matrices 4x4</h2>
+                <p>Determinante y operaciones con matrices.</p>
+            </a>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
